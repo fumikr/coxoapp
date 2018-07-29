@@ -79,12 +79,12 @@ app.use(SlackPassport.session());
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/', function(request, response) {
   response.sendFile(__dirname + '/views/index.html');
-  console.log(getUserIdFromCookie(request, response) + ' opened Index.html');
+  console.log(getUserId(request, response) + ' opened Index.html');
 });
 
 app.get('/login', function(request, response) {
   response.sendFile(__dirname + '/views/fail.html');
-  console.log(getUserIdFromCookie(request, response) + ' opened fail.html');
+  console.log(getUserId(request, response) + ' opened fail.html');
 });
 
 // on clicking "logoff" the cookie is cleared
@@ -99,17 +99,17 @@ app.get('/logoff',
 
 app.get('/q', function(request, response) {
   response.sendFile(__dirname + '/views/main.html');
-  console.log(getUserIdFromCookie(request, response) + ' opened main.html');
+  console.log(getUserId(request, response) + ' opened main.html');
 });
 
 app.get('/how-to-use', function(request, response) {
   response.sendFile(__dirname + '/views/how-to-use.html');
-  console.log(getUserIdFromCookie(request, response) + ' opened how-to-use.html');
+  console.log(getUserId(request, response) + ' opened how-to-use.html');
 });
 
 app.get('/changelog', function(request, response) {
   response.sendFile(__dirname + '/views/changelog.html');
-  console.log(getUserIdFromCookie(request, response) + ' opened changelog.html');
+  console.log(getUserId(request, response) + ' opened changelog.html');
 });
 
 app.get('/auth/facebook', FbPassport.authenticate('facebook'));
@@ -139,22 +139,22 @@ function isValidMember(teamId){
 // on successful auth, a cookie is set before redirecting
 // to the success view
 app.get('/setcookie', function(request, response) {
-    console.log(getUserIdFromCookie(request, response) +  ' set Cookie');
+    console.log(getUserId(request, response) +  ' set Cookie');
       var OneYear = new Date(new Date().getTime() + (1000*60*60*24*365)); // ~1y
       response.cookie('ezsfbmaster-passport', new Date());
       response.cookie('ezspassport', User, { expires: OneYear });
       response.redirect('/success');
-      console.log(getUserIdFromCookie(request, response) + ' sucessfully set cookie');
+      console.log(getUserId(request, response) + ' sucessfully set cookie');
   }
 );
 
 // if cookie exists, success. otherwise, user is redirected to index
 app.get('/success', function(req, res) {
-    console.log(getUserIdFromCookie(req, res) + ' pass Success');
+    console.log(getUserId(req, res) + ' pass Success');
     if(req.cookies['ezspassport']) {
       if (getTokenFromCookie(req, res)) { res.redirect('/q'); }
       else {
-        res.redirect('/logoff');
+        res.redirect('/');
       }
     } else {
       res.redirect('/');
@@ -233,8 +233,16 @@ function getTokenFromCookie(req, res) {
 
 function getUserIdFromCookie(req, res) {
   //console.log('Cookies: ', req.cookies);
-  var token = req.cookies.ezspassport.oauthID;
-  return token;
+  var id = req.cookies.ezspassport.oauthID;
+  return id;
+}
+
+function getUserId(req,res) {
+  var id = 'Anonymous user';
+  if (req.cookies.ezspassport) { 
+    id = getUserIdFromCookie(req, res);
+  }
+  return id;
 }
 
 // POST method called by Mark Like buttons
