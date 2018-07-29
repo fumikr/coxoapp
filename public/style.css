@@ -1,0 +1,131 @@
+/* styles */
+/* called by your view template */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Benton Sans", "Helvetica Neue", helvetica, arial, sans-serif;
+  margin: 2em;
+}
+
+div#header {
+  font-style: italic;
+  color: #373fff;
+  margin-bottom: 50px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid lightgrey;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+p {
+  max-width: 600px;
+}
+
+input {
+  display: block;
+  margin-bottom: 10px;
+  padding: 5px;
+  width: 100%;
+  border: 1px solid lightgrey;
+  border-radius: 3px;
+  font-size: 16px;
+}
+
+/*
+button {
+  font-size: 16px;
+  border-radius: 3px;
+  background-color: lightgrey;
+  border: 1px solid grey;
+  box-shadow: 2px 2px teal;
+  cursor: pointer;
+}*/
+
+/*
+button:hover {
+  background-color: yellow;
+}*/
+
+button:active {
+  box-shadow: none;
+}
+
+button#hide {
+  margin-bottom: 10px;
+  padding: 5px;
+  border: 1px solid lightgrey;
+  font-size: 16px;
+  border-radius:  20px; 
+  vertical-align: bottom;
+  min-width: 112px;
+}
+
+a.button {
+    text-decoration: none;
+    color: initial;
+    font-style: normal;
+    padding: 3px 15px;
+    border-radius: 20px;
+    border: 1px solid lightgray;
+}
+
+li {
+  margin-bottom: 5px;
+}
+
+footer {
+  margin-top: 50px;
+  padding-top: 25px;
+  border-top: 1px solid lightgrey;
+}
+
+footer a {
+  text-decoration: none; 
+}
+
+
+div.group {
+  border: 1px black solid;
+  border-radius: 10px;
+  padding: 10px;
+  max-width: 290px;
+}
+
+form#FetchForm {
+  display:inline-flex;
+}
+
+iframe {
+  max-width : 100%; 
+}
+
+.fb-post { padding: 10px 0px; margin: 1.5em ; text-align: center; }
+.liked-post { background-color: #e5e5e5; }
+.fb_iframe_widget span { background-color: white; }
+
+#top-right li {
+  list-style-type: circle;
+  padding-left : 10px;
+}
+
+#top-right a {
+  text-decoration : none;
+}
+
+#logoutbtn {
+  padding-bottom : 1em;
+  padding-left : 2.5em;
+}
+
+/* Use a media query to add a break point at 600px: */
+@media screen and (max-width:600px) {  
+  .fb-post { margin: 1.5em 0 ; }
+  .fb_iframe_widget { margin: 0 ; }
+  body { margin : 0; }
+  div#header { text-align : center;  }
+}

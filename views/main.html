@@ -1,0 +1,93 @@
+<!-- This is a static file -->
+<!-- served from your routes in server.js -->
+
+<!-- You might want to try something fancier: -->
+<!-- html/nunjucks docs: https://mozilla.github.io/nunjucks/ -->
+<!-- pug: https://pugjs.org/ -->
+<!-- haml: http://haml.info/ -->
+<!-- hbs(handlebars): http://handlebarsjs.com/ -->
+
+<!DOCTYPE html>
+<html lang="zh-hk">
+  <head>
+    <title>達人專用 - 品牌修煉 Click Like 助手</title>
+      <meta name="description" content="品牌修煉 Click Like 助手">
+      <link rel="shortcut icon" type="image/png" href="https://cdn.glitch.com/a3976d00-9d54-4c1e-afee-614347c571f1%2Flike_1.png?1532738313140"/>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">  
+      <meta name="slack-app-id" content="ABGVCV89X">  
+      
+      <link rel="stylesheet" href="style.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+      <script src="foo.js"></script>
+      <script>
+        // Exit and return Home page if no access right
+        if (!Cookies.get('ezspassport')) {              
+              window.location.href = "/";
+        }        
+      </script>
+    
+      <!-- Google Tag Manager -->
+      <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-PQ7TT35');</script>
+      <!-- End Google Tag Manager -->
+  </head>
+  <body>
+    
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PQ7TT35"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    
+    <!-- FACEBOOK SOCIAL PLUGIN -->
+    <div id="fb-root"></div>
+    <!-- END OF FACEBOOK SOCIAL PLUGIN -->
+    
+    <!-- HEADER -->
+    <div id="header">        
+      <div id="top-right" style="float:right;">
+        <div id="logoutbtn"> <!-- logout button -->
+          <a href="/logoff" id="logout" class="button">Logout</a>
+        </div>
+        <ui>
+          <li><a href="/how-to-use">How to Use</a></li>
+          <li><a href="/changelog" id="changelog">Change Log</a></li>
+        </ui>
+      </div>
+      <h1><a name="top"></a><a href="/" id="icon">
+        <img src="https://cdn.glitch.com/a3976d00-9d54-4c1e-afee-614347c571f1%2Flike_1.png?1532738313140" height="64"></a>
+        品牌修煉 Click LIKE助手
+      </h1>
+    </div>
+    <!-- END OF HEADER -->
+    
+     <!-- RELOAD FORM -->
+    <form id="FetchForm" action="/exec" method="get" >
+      <span>Num of Message:   </span>
+      <input type="number" name="read_limit" min="1" max="100" value="15">
+      <input id="reload" type="submit" value="Get Data">
+    </form>
+    <!-- END RELOAD FORM -->    
+
+    <!-- HIDE BUTTON -->
+    <button id="hide" value="false">Hide Liked</button>
+
+    <!-- OUTPUT AREA -->
+    <div id="container"></div>
+
+
+    <!-- FOOTER -->
+    <footer>       
+      <p><a href="https://craftweeks.com">Craftweeks</a> &nbsp;&middot;&nbsp; Copyright &#169; 2018 <a href="https://github.com/chriskyfung">Chris K. Fung</a> &nbsp;&middot;&nbsp; <a href="http://www.coxo.hk/">達人圈子</a></p>
+      <p>Made with <a href="https://glitch.com">Glitch</a>!</p>
+    </footer>
+    
+  </body>
+</html>
+    
