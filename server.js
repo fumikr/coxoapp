@@ -46,7 +46,7 @@ SlackPassport.use(new SlackStrategy({
               auth: encoded,
               name: profile.name,
               created: Date.now() }
-    console.log(encoded + '\n'+  profile);
+    console.log(profile);
   }
 ));
 
@@ -90,7 +90,7 @@ app.get('/login', function(request, response) {
 // on clicking "logoff" the cookie is cleared
 app.get('/logoff',
   function(request, response) {
-    console.log('Logoff');  
+    console.log(getUserId(request, response) + ' Logoff');  
     response.clearCookie('ezsfbmaster-passport');
     response.clearCookie('ezspassport');
     response.redirect('/');    
@@ -224,8 +224,8 @@ function getTokenFromCookie(req, res) {
   } else {
     var jwt = require('jwt-simple');
     var decoded = jwt.decode(xToken, process.env.SECRET); 
-    if (decoded.auth.startsWith("xoxp-")) {
-      return decoded.auth;
+    if (decoded.startsWith("xoxp-")) {
+      return decoded;
     }
     return false;
   }
@@ -253,7 +253,7 @@ app.post('/update', function(req, res) {
 // OnClickEvent - Mark Liked on Slack
 async function onClickBtn(req, res) {    
   var ts = req.body.ts;
-  console.log('ts: ' + ts);
+  //console.log('ts: ' + ts);
   if(ts) {
     var token = getTokenFromCookie(req, res);
     var channel = process.env.DEFAULT_SLACK_CHANNEL_ID;     
