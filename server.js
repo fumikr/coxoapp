@@ -32,7 +32,7 @@ SlackPassport.use(new SlackStrategy({
     clientSecret: process.env.SLACK_SECRET,
     skipUserProfile: false, // default
     callbackURL: 'https://'+process.env.PROJECT_DOMAIN+'.glitch.me/auth/slack/callback',
-    scope: ['reactions:write','emoji:read','reactions:read','groups:history','groups:read','usergroups:read','incoming-webhook'] 
+    scope: ['reactions:write','reactions:read','groups:history','groups:read','incoming-webhook'] 
   },
   (accessToken, refreshToken, profile, done) => {
     // optionally persist user data into a database
@@ -44,7 +44,7 @@ SlackPassport.use(new SlackStrategy({
   
     User = { oauthID: profile.id,
               auth: encoded,
-              name: profile.name,
+              name: profile.displayName,
               created: Date.now() }
     console.log(profile);
   }
@@ -77,39 +77,39 @@ app.use(SlackPassport.session());
 
 // index route
 // http://expressjs.com/en/starter/basic-routing.html
-app.get('/', function(request, response) {
-  response.sendFile(__dirname + '/views/index.html');
-  console.log(getUserId(request, response) + ' opened Index.html');
+app.get('/', function(req, res) {
+  res.sendFile(__dirname + '/views/index.html');
+  console.log(getUserInfo(req, res) + ' opened index.html');
 });
 
-app.get('/login', function(request, response) {
-  response.sendFile(__dirname + '/views/fail.html');
-  console.log(getUserId(request, response) + ' opened fail.html');
+app.get('/login', function(req, res) {
+  res.sendFile(__dirname + '/views/fail.html');
+  console.log(getUserInfo(req, res) + ' opened fail.html');
 });
 
 // on clicking "logoff" the cookie is cleared
 app.get('/logoff',
-  function(request, response) {
-    console.log(getUserId(request, response) + ' Logoff');  
-    response.clearCookie('ezsfbmaster-passport');
-    response.clearCookie('ezspassport');
-    response.redirect('/');    
+  function(req, res) {
+    console.log(getUserInfo(req, res) + ' Logoff');  
+    res.clearCookie('ezsfbmaster-passport');
+    res.clearCookie('ezspassport');
+    res.redirect('/');    
   }
 );
 
-app.get('/q', function(request, response) {
-  response.sendFile(__dirname + '/views/main.html');
-  console.log(getUserId(request, response) + ' opened main.html');
+app.get('/start', function(req, res) {
+  res.sendFile(__dirname + '/views/main.html');
+  console.log(getUserInfo(req, res) + ' opened main.html');
 });
 
-app.get('/how-to-use', function(request, response) {
-  response.sendFile(__dirname + '/views/how-to-use.html');
-  console.log(getUserId(request, response) + ' opened how-to-use.html');
+app.get('/how-to-use', function(req, res) {
+  res.sendFile(__dirname + '/views/how-to-use.html');
+  console.log(getUserInfo(req, res) + ' opened how-to-use.html');
 });
 
-app.get('/changelog', function(request, response) {
-  response.sendFile(__dirname + '/views/changelog.html');
-  console.log(getUserId(request, response) + ' opened changelog.html');
+app.get('/changelog', function(req, res) {
+  res.sendFile(__dirname + '/views/changelog.html');
+  console.log(getUserInfo(req, res) + ' opened changelog.html');
 });
 
 app.get('/auth/facebook', FbPassport.authenticate('facebook'));
@@ -124,10 +124,13 @@ app.get('/auth/slack', SlackPassport.authorize('Slack'));
 app.get('/auth/slack/callback', 
   SlackPassport.authenticate('Slack', { failureRedirect: '/login', session: false }),
     (req, res) => {
-        if (isValidMember(res.team_id)) res.redirect('/logoff') 
-        res.redirect('/setcookie') 
+        console.log('slack callback')
+        if (!isValidMember(req.user.team.id)) res.redirect('/logoff') 
+         else res.redirect('/setcookie') ;
+        
   }
 );
+
 
 function isValidMember(teamId){
   if ( teamId == process.env.DEFAULT_SLACK_TEAM_ID) {
@@ -138,21 +141,21 @@ function isValidMember(teamId){
 
 // on successful auth, a cookie is set before redirecting
 // to the success view
-app.get('/setcookie', function(request, response) {
-    console.log(getUserId(request, response) +  ' set Cookie');
+app.get('/setcookie', function(req, res) {
+    console.log(getUserInfo(req, res) +  ' set Cookie');
       var OneYear = new Date(new Date().getTime() + (1000*60*60*24*365)); // ~1y
-      response.cookie('ezsfbmaster-passport', new Date());
-      response.cookie('ezspassport', User, { expires: OneYear });
-      response.redirect('/success');
-      console.log(getUserId(request, response) + ' sucessfully set cookie');
+      res.cookie('ezsfbmaster-passport', new Date());
+      res.cookie('ezspassport', User, { expires: OneYear });
+      res.redirect('/success');
+      console.log(getUserInfo(req, res) + ' sucessfully set cookie');
   }
 );
 
 // if cookie exists, success. otherwise, user is redirected to index
 app.get('/success', function(req, res) {
-    console.log(getUserId(req, res) + ' pass Success');
+    console.log(getUserInfo(req, res) + ' pass Success');
     if(req.cookies['ezspassport']) {
-      if (getTokenFromCookie(req, res)) { res.redirect('/q'); }
+      if (getTokenFromCookie(req, res)) { res.redirect('/start'); }
       else {
         res.redirect('/');
       }
@@ -175,39 +178,46 @@ async function asyncFetch(req, res) {
     const { WebClient } = require('@slack/client');    
     const web = new WebClient(token);
     var obj = [];
-    const result = await web.groups.history({channel: channel, count: count});
-    if (!result.ok) {
-      res.redirect(303, "Error(110): Slack上的「" + process.env.DEFAULT_SLACK_CHANNEL_NAME + "」Channel 讀取失敗!");
-    } else {
-      var messages = result.messages.reverse();
-      for (var i = 0 ; i < messages.length; i++) {
-        var message = messages[i];
-        if (message.hasOwnProperty('attachments')){          
-          var ts = message.ts;
-          var url = message.attachments[0].original_url;
+    try {
+      const result = await web.groups.history({channel: channel, count: count});
+      if (!result.ok) {
+        res.send({ success: false , error: 'Error(110): Slack上的「" + process.env.DEFAULT_SLACK_CHANNEL_NAME + "」Channel 讀取失敗!' });
+        console.warn('Error(110): Slack上的「" + process.env.DEFAULT_SLACK_CHANNEL_NAME + "」Channel 讀取失敗! \n' + result.ok);
+      } else {
+        var messages = result.messages.reverse();
+        for (var i = 0 ; i < messages.length; i++) {
+          var message = messages[i];
+          if (message.hasOwnProperty('attachments')){          
+            var ts = message.ts;
+            var url = message.attachments[0].original_url;
 
-          // check if the post has aleary marked on Slack
-          var isliked = false;
-          var userId = getUserIdFromCookie(req, res);
-          if (message.hasOwnProperty('reactions')){                   
-            for (var j in message.reactions) {
-              var likedusers = message.reactions[j].users;                           
-              for (var k in likedusers) {
-                var uid = likedusers[k];
-                if (uid == userId) { isliked = true; break;}                                
+            // check if the post has aleary marked on Slack
+            var isliked = false;
+            var userId = getUserIdFromCookie(req, res);
+            if (message.hasOwnProperty('reactions')){                   
+              for (var j in message.reactions) {
+                var likedusers = message.reactions[j].users;                           
+                for (var k in likedusers) {
+                  var uid = likedusers[k];
+                  if (uid == userId) { isliked = true; break;}                                
+                };
+                if (isliked) { break; }
               };
-              if (isliked) { break; }
-            };
-          }; 
-          obj.push({ind: i, url: url, ts: ts, isliked: isliked})
+            }; 
+            obj.push({ind: i, url: url, ts: ts, isliked: isliked})
+          };
+          //output += i+1 + ". ts: " + ts + ", url: " + url + ", isliked: " + isliked + ";<br>"
         };
-        //output += i+1 + ". ts: " + ts + ", url: " + url + ", isliked: " + isliked + ";<br>"
+        console.log(getUserInfo(req, res) + ' proceeded message #' + (i) + '.');
       };
-      console.log(getUserIdFromCookie(req, res) + ' proceeded message #' + (i) + '.');
-    };
-    res.send({ success: true, read_limit: count, obj: obj});
+      res.send({ success: true, read_limit: count, obj: obj});
+    } catch(err) {
+      res.send({ success: false , error: err + '<br>你沒有該 Slack Channel 的讀取權限!<br>請先參加「品牌修煉」的講座及工作坊'});
+      console.warn('Error(111): 沒有該Slack Channel 的讀取權限! \n' + err)
+    }
   } else {
-    res.redirect(303, "Error(111): 無法找取read_limi");
+    res.redirect(303, "Error(112): 無法找取read_limit");
+    console.warn("Error(112): 無法找取read_limit\n" + req.query)
   }  
 };
 
@@ -237,12 +247,20 @@ function getUserIdFromCookie(req, res) {
   return id;
 }
 
-function getUserId(req,res) {
-  var id = 'Anonymous user';
+function getUserNameFromCookie(req, res) {
+  //console.log('Cookies: ', req.cookies);
+  var id = req.cookies.ezspassport.name;
+  return id;
+}
+
+function getUserInfo(req,res) {
+  var id = 'Anonymous';
+  var name = ' user';
   if (req.cookies.ezspassport) { 
     id = getUserIdFromCookie(req, res);
+    name = getUserNameFromCookie(req, res);
   }
-  return id;
+  return id + ' ( ' + name + ' )';
 }
 
 // POST method called by Mark Like buttons

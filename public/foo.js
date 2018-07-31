@@ -44,7 +44,7 @@ $(document).ready(function() {
             }(document, 'script', 'facebook-jssdk'));
             FB.XFBML.parse();
           } else {
-            $container.html('There is a problem');
+            $container.html('<h2>There is a problem</h2><p>' + response.error);
           }
         }
       });
