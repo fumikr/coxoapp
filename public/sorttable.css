@@ -1,0 +1,45 @@
+/* tables */
+table.tablesorter {
+	font-family:arial;
+	background-color: #CDCDCD;
+	margin:10px 0pt 15px;
+	/*font-size: 8pt;*/
+	width: 100%;
+	text-align: center;
+  vertical-align: middle;
+}
+table.tablesorter thead tr th, table.tablesorter tfoot tr th {
+	background-color: #e6EEEE;
+	border: 1px solid #FFF;
+	/*font-size: 8pt;*/
+	padding: 4px;
+}
+table.tablesorter thead tr .header {
+	background-image: url('https://cdn.glitch.com/c5cf6c57-1bac-4684-bf70-929ce8517fcc%2Fbg.gif?1533469116978');
+	background-repeat: no-repeat;
+	background-position: center right;
+	cursor: pointer;
+}
+table.tablesorter tbody td {
+	color: #3D3D3D;
+	padding: 4px;
+	background-color: #FFF;
+	/*vertical-align: top;*/
+}
+table.tablesorter tbody tr.odd td {
+	background-color:#F0F0F6;
+}
+table.tablesorter thead tr .tablesorter-headerDesc {
+	background-image: url('https://cdn.glitch.com/c5cf6c57-1bac-4684-bf70-929ce8517fcc%2Fasc.gif?1533469117126');
+}
+table.tablesorter thead tr .tablesorter-headerAsc {
+	background-image: url('https://cdn.glitch.com/c5cf6c57-1bac-4684-bf70-929ce8517fcc%2Fdesc.gif?1533469116741');
+}
+table.tablesorter thead tr .tablesorter-headerDesc, table.tablesorter thead tr .tablesorter-headerAsc {
+  background-color: #8dbdd8;
+}
+
+table.tablesorter img {
+  vertical-align: inherit; 
+  margin: 3px 7px 3px 5px;
+}
