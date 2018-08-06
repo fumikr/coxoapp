@@ -33,13 +33,13 @@
     <div id="header">          
       <div id="top-right" style="float:right;">
         <ui>
-          <li><a href="/">Home</a></li>
-          <li><a href="/changelog">Change Log</a></li>
+          <li><a href="/">主頁</a></li>
+          <li><a href="/changelog" id="changelog">版本記錄</a></li>
         </ui>
       </div>
       <h1><a name="top"></a><a href="/" id="icon">
         <img src="https://cdn.glitch.com/a3976d00-9d54-4c1e-afee-614347c571f1%2Flike_1.png?1532738313140" height="64"></a>
-        品牌修煉 Click LIKE助手
+        達人專用 - 品牌修煉助手
       </h1>
     </div>
     <!-- END HEADER -->
@@ -69,6 +69,21 @@
     <div id="content">
       <h2>應用程式概念</h2>
         <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/dM486I6DnG4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      <p>
+        一站式管理達人的Facebook及Slack個人品牌修煉頻道，促進交換社交貨幣。
+      </p>
+      <p>
+        方便達人檢查有沒有漏看分享到品牌修煉的Facebook帖子，覆核是否有依照品牌修煉的規則回Slack頻道Mark Liked。為達人提供發佈頻率與粉絲回應的統計及分析數據。
+      </p>
+      
+      <br clear="all" />
+      
+      <h2>新功能 - 粉絲分析助手</h2>
+      <p>登入後，從Menu Bar按「粉絲分析助手」的連結，就會進入如下圖的網頁。預設顯示為「過去7天」的統計記錄。你可以在表格的右上方更變日期範圍選項，然後按「取得分析」向伺服器查詢更多天數的數據記錄。</p>
+      <p>可供選擇的日期範圍選項：<br>
+        <ui><li>過去30天</li><li>過去14天</li><li>過天7天</li><li>過去1天</li></ui>
+      </p>
+      <p><img class="shadow" src="https://cdn.glitch.com/c5cf6c57-1bac-4684-bf70-929ce8517fcc%2Fez-analytics.png?1533538067660"></p>
       
       <br clear="all" />
       
@@ -133,6 +148,12 @@
         <ul>
           <li>如果沒有該Channel的讀取權限，則會顯示如下圖的錯誤信息。</li>
           <img class="shadow" src="https://cdn.glitch.com/a3976d00-9d54-4c1e-afee-614347c571f1%2Ferror_msg_no_access_right.png?1533064787026">
+        </ul>
+        <li><b>為什麼不設計成自動同步Facebook與Slack之間的「讚好」？</b></li>
+        <ul>
+          <li>基於2018年2月份的Facebook隱私政策修定，現在已經不再提供API方法去傳取「讚好」貼文的用戶資料。
+            <br>更無法經由其API接點，對用戶貼文添加「讚好」反應。詳細請參考：<a href="https://developers.facebook.com/docs/graph-api/reference/v3.1/object/reactions" target="_blank">Facebook Graph API 說明</a> (英文)。</li>
+          <img class="shadow" src="https://cdn.glitch.com/a3976d00-9d54-4c1e-afee-614347c571f1%2Ffacebook-api-privacy-concerns.png?1533192579883">
         </ul>
       </ol>
 
