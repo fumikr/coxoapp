@@ -3,7 +3,7 @@
   "//2": "https://docs.npmjs.com/files/package.json",
   "//3": "updating this file will download and update your packages",
   "name": "ezSFbMaster",
-  "version": "1.1.2",
+  "version": "2.0.0",
   "description": "A web-application for 達人圈子 members to streamline facebook-slack like clicking workflow.",
   "main": "server.js",
   "scripts": {
