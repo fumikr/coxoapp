@@ -84,9 +84,9 @@ function embedFB_ui(i, url, ts, isliked) {
   //htmltxt += '<button class="enlarge" value="fb-iframe_' + i + '" type="submit">+</button>';
   
   // Display URL as caption
-  htmltxt += '<br><a href="' + url + '" target="_blank">Open in Facebook</a>&nbsp;&nbsp;&nbsp;';
+  htmltxt += '<br><a href="' + url + '" target="_blank">在Facebook開啟</a>&nbsp;&nbsp;&nbsp;';
   // Display a correspending button
-  htmltxt += '<button class="marks" id="markbtn' + i + '" type="submit" value="' + ts + '">Mark on Slack</button>';
+  htmltxt += '<button class="marks" id="markbtn' + i + '" type="submit" value="' + ts + '">標記到Slack</button>';
   if (isliked){ htmltxt += ' <i class="fa fa-check-circle" style="color:green"></i>'; }
   htmltxt += '</div>';
   return htmltxt;

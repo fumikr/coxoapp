@@ -18,15 +18,19 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">  
       <meta name="slack-app-id" content="ABGVCV89X">  
       
-      <link rel="stylesheet" href="style.css">
+      
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="sorttable.css">
+      <link rel="stylesheet" href="style.css">
+    
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-      <script src="foo.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.30.7/js/jquery.tablesorter.js"></script> 
+      <script src="history.js"></script>
       <script>
         // Exit and return Home page if no access right
         if (!Cookies.get('ezspassport')) {              
-              window.location.href = "/";
+            window.location.href = "/";
         }        
       </script>
     
@@ -57,45 +61,46 @@
         </div>
         <ui>
           <li><a href="/how-to-use">使用說明</a></li>
-          <li><a href="/changelog" id="changelog">版本記錄</a></li>
+          <li><a href="/changelog" id="changelog">版本</a></li>
         </ui>
       </div>
       <h1><a name="top"></a><a href="/" id="icon">
         <img src="https://cdn.glitch.com/a3976d00-9d54-4c1e-afee-614347c571f1%2Flike_1.png?1532738313140" height="64"></a>
-        品牌修煉 Click LIKE助手
+        品牌修煉粉絲分析助手
       </h1>
     </div>
     <!-- END OF HEADER -->
+    
     
     <!-- START BREADCRUMB -->
     <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
       <tr>
         <td id="breadcrumb">
-          讚好助手 &nbsp;|&nbsp; <a href="/history" id="goHistory">粉絲分析助手</a>
+          <a href="/start" id="goBack">讚好助手</a> &nbsp;|&nbsp; 粉絲分析助手
         </td>
       </tr>
     </table>
     <!-- END BREADCRUMB -->
+
+    <br clear="all" />
     
      <!-- RELOAD FORM -->
-    <form id="FetchForm" action="/exec" method="get" >
-      <span>Num of Message:   </span>
-      <input id="read_limit" type="number" name="read_limit" min="1" max="100" value="15">
-      <input id="reload" type="submit" value="Get Data">
+    <form id="FetchForm" action="/getHistory" method="get" style="float: right;">
+      <select id="num_of_days" name="num_of_days" style="height: 30px;">
+        <option value="30">過去30天</option>
+        <option value="14">過去14天</option>
+        <option value="7" selected>過去7天</option>
+        <option value="1">過去1天</option>
+      </select>
+      <input id="reload" type="submit" value="取得分析">
     </form>
-    <!-- END RELOAD FORM -->    
-
-    <!-- HIDE BUTTON -->
-    <button id="hide" value="false">Hide Liked</button>
+    <!-- END RELOAD FORM -->
     
-    <div id="news-banner">
-      <iframe src="https://onedrive.live.com/embed?cid=42A0831842844C3A&resid=42A0831842844C3A%21115063&authkey=AMH46wQB1WSRrBE" width="165" height="128" frameborder="0" scrolling="no"></iframe>
-      <br><a href="http://go.craftweeks.com/EGkXAJ" target="_blank">Open on OneDrive</a>
-    </div>
+    
     <!-- OUTPUT AREA -->
     <div id="container"></div>
 
-
+    
     <!-- FOOTER -->
     <footer>       
       <p><a href="https://craftweeks.com">Craftweeks</a> &nbsp;&middot;&nbsp; Copyright &#169; 2018 <a href="https://github.com/chriskyfung">Chris K. Fung</a> &nbsp;&middot;&nbsp; <a href="http://www.coxo.hk/">達人圈子</a></p>
