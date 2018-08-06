@@ -87,6 +87,11 @@ app.get('/login', function(req, res) {
   console.log(getUserInfo(req, res) + ' opened fail.html');
 });
 
+app.get('/fail', function(req, res) {
+  res.sendFile(__dirname + '/views/fail.html');
+  console.log(getUserInfo(req, res) + ' opened fail.html');
+});
+
 // on clicking "logoff" the cookie is cleared
 app.get('/logoff',
   function(req, res) {
@@ -181,10 +186,9 @@ async function asyncFetch(req, res) {
     try {
       const result = await web.groups.history({channel: channel, count: count});
       if (!result.ok) {
-        res.send({ success: false , error: 'Error(110): Slack上的「" + process.env.DEFAULT_SLACK_CHANNEL_NAME + "」Channel 讀取失敗!' });
-        console.warn('Error(110): Slack上的「" + process.env.DEFAULT_SLACK_CHANNEL_NAME + "」Channel 讀取失敗! \n' + result.ok);
+        throw new Error('Error(110) Failed to fetch history of messages and events from a private channel.');
       } else {
-        var messages = result.messages.reverse();
+        var messages = result.messages;
         for (var i = 0 ; i < messages.length; i++) {
           var message = messages[i];
           if (message.hasOwnProperty('attachments')){          
@@ -212,7 +216,7 @@ async function asyncFetch(req, res) {
       };
       res.send({ success: true, read_limit: count, obj: obj});
     } catch(err) {
-      res.send({ success: false , error: err + '<br>你沒有該 Slack Channel 的讀取權限!<br>請先參加「品牌修煉」的講座及工作坊'});
+      res.send({ success: false , error: err + '<br>你可以沒有該 Slack Channel 的讀取權限!<br>請先參加「品牌修煉」的講座及工作坊'});
       console.warn('Error(111): 沒有該Slack Channel 的讀取權限! \n' + err)
     }
   } else {
@@ -296,3 +300,186 @@ async function onClickBtn(req, res) {
     }
   }
 }; 
+
+// init sqlite db
+var fs = require('fs');
+var dbFile = './.data/sqlite.db';
+var exists = fs.existsSync(dbFile);
+var sqlite3 = require('sqlite3').verbose();
+var db = new sqlite3.Database(dbFile);
+
+app.get('/getMemberList', function(req, res) {
+  asyncFetchMemberAvatar(req, res);
+});
+
+async function asyncFetchMemberAvatar(req, res) {
+  
+  var token = process.env.SLACK_TOKEN;
+  var channel = process.env.DEFAULT_SLACK_CHANNEL_ID;     
+  const { WebClient } = require('@slack/client');    
+  const web = new WebClient(token);
+  
+  var memberlist = [];
+  const gInfo = await web.groups.info({channel: channel});
+  if (!gInfo.ok) {
+    throw new Error('Error(130) Failed to get information about a private channel.')
+  } else {
+    var members = gInfo.group.members;
+    for (var m in members){
+      const uInfo = await web.users.info({user: members[m]}); 
+      if (!uInfo.ok) {
+         throw new Error('Error(133) Failed to get information about a user.')
+      }
+      memberlist[m] = { [members[m]] : {avatar: uInfo.user.profile.image_32,
+                           name: uInfo.user.real_name}};
+      write2db(members[m], uInfo.user.real_name, uInfo.user.profile.image_32);
+
+    }   
+    res.send(members);
+    console.log('Database "Members" ready to go!');
+    db.each('SELECT * from Members', function(err, row) {
+      if ( row ) {
+        console.log('record:', row);
+      }
+    });
+  };  
+};
+
+var r = false;
+function write2db(uid, name, avatar) {
+  // if ./.data/sqlite.db does not exist, create it, otherwise print records to console
+  db.serialize(function(){
+    console.log(exists)
+    if (!r) {
+      db.run('CREATE TABLE Members (uid TEXT, name TEXT, avatar TEXT);');
+      console.log('New table Members created!');
+      r = true;
+    }
+    else {
+      
+      db.serialize(function() {
+          db.run('INSERT INTO Members (uid, name, avatar) VALUES ("' 
+                 + uid + '", "' + name + '", "'
+                 + avatar +'" );');
+      });
+    }
+  });
+};
+
+
+//
+app.get('/history', function(req, res) {
+  res.sendFile(__dirname + '/views/history.html');
+  console.log(getUserInfo(req, res) + ' opened history.html');
+});
+
+app.get('/getHistory', function(req, res) {
+  asyncFetchHistory(req, res); 
+});
+
+var sqlite = require('sqlite-sync'); //requiring
+sqlite.connect(dbFile); 
+
+function getNameAvatar(uid) {
+   return sqlite.run('SELECT name name, avatar avatar FROM Members WHERE uid = ?', [uid]); 
+}
+
+async function asyncFetchHistory(req, res) {    
+  var nDays = req.query.num_of_days;
+  console.log('num_of_days: ' + nDays);
+  var tsLast = new Date().getTime();
+  var tsFirst = new Date(tsLast-86400000*nDays);
+    tsFirst.setHours(0);
+    tsFirst.setMinutes(0);
+    tsFirst.setSeconds(0);
+    tsFirst.setMilliseconds(0);
+  
+  var token = process.env.SLACK_TOKEN;
+  var channel = process.env.DEFAULT_SLACK_CHANNEL_ID;     
+  const { WebClient } = require('@slack/client');    
+  const web = new WebClient(token);
+  
+  
+  var data = sqlite.run('SELECT * FROM Members');
+  var members = [];
+  for (var d in data) {
+    var datum = data[d];
+    members[datum.uid] = {name: datum.name, avatar: datum.avatar} ;
+  }
+  
+  var users = [];
+  var has_more = true;
+  //console.log(members);
+  while(has_more) {
+    try {
+      const result = await web.groups.history({channel: channel, 
+                                               count: 1000, 
+                                               latest: tsLast, 
+                                               oldest: JsDate2SlackTs(tsFirst)});
+      if (!result.ok) {
+        throw new Error('Error(131) Failed to fetch history of messages and events from a private channel.');
+      } else {
+        console.log('Start Fetch History');
+        var messages = result.messages;
+        for (var i = 0 ; i < messages.length; i++) {
+          var message = messages[i];
+          if (message.hasOwnProperty('attachments')){          
+            if (message.attachments[0].original_url.includes('.facebook.com')){
+              const uid = message.user;
+              var UserNotFound = true;
+              
+              if (!users.hasOwnProperty(uid)) {
+                //console.log(uid);
+                users[uid] = {avatar: members[uid].avatar, 
+                            name: members[uid].name, num_of_posts: 1, adjacency: {}};
+              } else {
+                users[uid].num_of_posts++;
+              };
+              
+              if (message.hasOwnProperty('reactions')){                   
+                var likelist = [];
+                for (var j in message.reactions) {
+                  var likedusers = message.reactions[j].users;
+                  for (var k in likedusers) {
+                    likelist[likedusers[k]] = likedusers[k];
+                  }
+                };
+                for (var m in likelist) {
+                   var liker = likelist[m];
+                   if (!users[uid].adjacency[liker]) {
+                     //console.log('New adjacency')
+                     users[uid].adjacency[liker] = {
+                                     avatar: members[liker].avatar,
+                                     name: members[liker].name,
+                                     reaction_count: 0};
+                   }
+                   users[uid].adjacency[liker].reaction_count++;
+                };                  
+              }; 
+              //console.log(users[uid].adjacency);
+            };
+          };
+        };
+        if (result.has_more) {
+          tsLast = messages[messages.length-1].ts;
+        } else {
+          has_more = false;
+        }
+      };
+    } catch(err) {
+      res.send({ success: false , error: err + '<br>你可以沒有該 Slack Channel 的讀取權限!<br>請先參加「品牌修煉」的講座及工作坊'});
+      console.warn('Error(131): 沒有該Slack Channel 的讀取權限! \n' + err)
+    }
+  };
+  //console.log(users);
+  res.send({success: true, users: Object.values(users)});
+};
+
+function JsDate2SlackTs(d) {
+   return d/1000;
+}
+
+function SlackTs2JsDate(ts) {
+   return ts*1000;
+}
+
