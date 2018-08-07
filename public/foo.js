@@ -27,14 +27,15 @@ $(document).ready(function() {
           if(response.success) {            
             var output ='';
             var nLiked = 0;
-            for (var i= 0;  i < response.obj.length; i++) {
-              var obj = response.obj[i];
+            var objLendth = response.obj.length;
+            for (var i= 1;  i <= objLendth; i++) {
+              var obj = response.obj[objLendth - i];
               output += embedFB_ui(obj.ind, obj.url, obj.ts, obj.isliked);
               if (obj.isliked) { 
                 nLiked++;
               }
             }
-            $container.html('<h2>Found ' + response.obj.length + ' posts (' + nLiked + ' already liked)</h2>'+ output);
+            $container.html('<h2>Found ' + objLendth + ' posts (' + nLiked + ' already liked)</h2>'+ output);
             (function(d, s, id) {
               var js, fjs = d.getElementsByTagName(s)[0];
               if (d.getElementById(id)) return;
@@ -127,11 +128,11 @@ $(document).on("click", "#hide", function(e){
     if ($(this).val() == 'false') {
       $('.liked-post').hide();
       $(this).val('true');
-      $(this).html('Show Liked');
+      $(this).html('顯示Liked');
     }
     else {
       $('.liked-post').show();
       $(this).val('false');
-      $(this).html('Hide Liked');
+      $(this).html('隱藏Liked');
     }            
 });

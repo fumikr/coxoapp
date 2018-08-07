@@ -85,14 +85,15 @@
      <!-- RELOAD FORM -->
     <br><br><br><br><br>
     <form id="FetchForm" action="/exec" method="get" >
-      <span>Num of Message:   </span>
+      <span>摘取最新的</span>
       <input id="read_limit" type="number" name="read_limit" min="1" max="100" value="15">
-      <input id="reload" type="submit" value="Get Data">
+      <span>條訊息&nbsp;</span>
+      <input id="reload" type="submit" value="確定">
     </form>
     <!-- END RELOAD FORM -->    
 
     <!-- HIDE BUTTON -->
-    <button id="hide" value="false">Hide Liked</button>
+    <button id="hide" value="false">隱藏Liked</button>
     
     <!-- OUTPUT AREA -->
     <div id="container"></div>

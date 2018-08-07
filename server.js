@@ -430,8 +430,9 @@ async function asyncFetchHistory(req, res) {
               
               if (!users.hasOwnProperty(uid)) {
                 //console.log(uid);
-                users[uid] = {avatar: members[uid].avatar, 
-                            name: members[uid].name, num_of_posts: 1, adjacency: {}};
+                users[uid] = { avatar: members[uid].avatar, 
+                                 name: members[uid].name, num_of_posts: 1, 
+                                 num_of_reacts: 0, adjacency: {}};
               } else {
                 users[uid].num_of_posts++;
               };
@@ -454,6 +455,13 @@ async function asyncFetchHistory(req, res) {
                                      reaction_count: 0};
                    }
                    users[uid].adjacency[liker].reaction_count++;
+                   if (!users[liker]){
+                     users[liker] = {avatar: members[liker].avatar, 
+                            name: members[liker].name, num_of_posts: 0, 
+                                     num_of_reacts: 1, adjacency: {}};
+                   } else {
+                     users[liker].num_of_reacts++;
+                    };                  
                 };                  
               }; 
               //console.log(users[uid].adjacency);
