@@ -34,6 +34,7 @@ input {
   border: 1px solid lightgrey;
   border-radius: 3px;
   font-size: 16px;
+  text-align: center;
 }
 
 /*
@@ -98,7 +99,14 @@ div.group {
 
 form#FetchForm {
   display:inline-flex;
+  background: aliceblue;
 }
+
+form#FetchForm span {
+  flex: none;
+  padding-top: 5px;
+}
+
 
 iframe {
   max-width : 100%; 
@@ -149,18 +157,6 @@ img {
   background: white;
 }
 
-/* Use a media query to add a break point at 600px: */
-@media screen and (max-width:600px) {  
-  .fb-post { margin: 1.5em 0 ; }
-  .fb_iframe_widget { margin: 0 ; }
-  body { margin : 0; }
-  div#header { text-align : center;  }
-  #news-banner {
-    float: unset;
-    top: unset;
-  }
-}
-
 div#content {
    max-width: 960px; 
 }
@@ -204,4 +200,51 @@ div#content {
   margin: 1px;
   vertical-align: middle;
   width: 70px;
+}
+
+/* Use a media query to add a break point at 600px: */
+@media screen and (max-width:600px) {  
+  .fb-post { margin: 1.5em 0 ; }
+  .fb_iframe_widget { margin: 0 ; }
+  body { margin : 0; }
+  div#header { text-align : center;  }
+  #news-banner {
+    float: unset;
+    top: unset;
+  }
+  
+  table#HistoryTable #col1 {
+    width:80px;
+  }
+  table#HistoryTable #col2, #col4, #col5 {
+    width:45px;
+  }
+}
+
+@media screen and (max-width:414px) {  
+  .fans-tag {
+    width:54px;
+  }
+}
+
+
+@media screen and (max-width:375px) {  
+  .fans-tag {
+    width:66px;
+  }
+}
+
+@media screen and (max-width:360px) {  
+  .fans-tag {
+    width:58px;
+  }
+}
+
+@media screen and (max-width:320px) {  
+  .fans-tag {
+    width:36px;
+  }
+  table.tablesorter img {
+    margin: 0px;
+  }
 }
