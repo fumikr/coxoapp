@@ -44,6 +44,7 @@ $(document).ready(function() {
               fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));
             FB.XFBML.parse();
+            showHideBtn();
           } else {
             $container.html('<h2>There is a problem</h2><p>' + response.error);
           }
@@ -87,7 +88,7 @@ function embedFB_ui(i, url, ts, isliked) {
   // Display URL as caption
   htmltxt += '<br><a href="' + url + '" target="_blank">在Facebook開啟</a>&nbsp;&nbsp;&nbsp;';
   // Display a correspending button
-  htmltxt += '<button class="marks" id="markbtn' + i + '" type="submit" value="' + ts + '">標記到Slack</button>';
+  htmltxt += '<button class="marks" id="markbtn' + i + '" type="submit" value="' + ts + '">標記到<i class="fa fa-slack"></i>slack</button>';
   if (isliked){ htmltxt += ' <i class="fa fa-check-circle" style="color:green"></i>'; }
   htmltxt += '</div>';
   return htmltxt;
@@ -129,10 +130,17 @@ $(document).on("click", "#hide", function(e){
       $('.liked-post').hide();
       $(this).val('true');
       $(this).html('顯示Liked');
+      $(this).after(' <i class="fa fa-eye-slash"></i>');
     }
     else {
-      $('.liked-post').show();
-      $(this).val('false');
-      $(this).html('隱藏Liked');
+      showHideBtn();
     }            
 });
+
+function showHideBtn() {
+  $('.liked-post').show();
+  var x = $('#hide');
+  x.val('false');
+  x.html('隱藏Liked');
+  x.next('i').remove();
+};

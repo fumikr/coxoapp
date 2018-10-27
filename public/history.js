@@ -25,7 +25,7 @@ function sortAdjacency(b, a) {
 
 function getFetch(action, data) {      
   var $container = $('#container');
-  $container.html('<h2>正在從伺服器下載數據記錄，可能需要一分鐘處理，請稍候。</h2>');
+  $container.html('<h2>正在從伺服器下載數據記錄，可能需要一分鐘處理，請稍候。 <i class="fa fa-spinner fa-spin" style="font-size:24px"></i></h2>');
   $.ajax({
     url: action,
     type: 'get',
@@ -37,7 +37,7 @@ function getFetch(action, data) {
     success: function (response) {
       if(response.success) {
         $container.html('');
-        $container.append('<table id="HistoryTable" class="tablesorter"><col id="col1" width="150"><col id="col2" width="75"><col id="col3"><col id="col4" width="75"><col id="col5" width="75"><thead><tr><th class="header">達人用戶</th><th class="header">發佈<br>帖數</th><th class="header">粉絲反應數目</th><th class="header">返回<br>數目</th><th class="header">GTR</th></tr></thead><tbody></tbody>');
+        $container.append('<table id="HistoryTable" class="tablesorter"><col id="col1" width="150"><col id="col2" width="75"><col id="col3"><col id="col4" width="75"><col id="col5" width="75"><thead><tr><th class="header">達人用戶</th><th class="header">發佈<br>帖數</th><th class="header">粉絲反應數目</th><th class="header">回讚<br>數目</th><th class="header">GTR</th></tr></thead><tbody></tbody>');
         for (var i= 0;  i < response.users.length; i++) {
           var user = response.users[i];
           var adjacency = Object.values(user.adjacency);
