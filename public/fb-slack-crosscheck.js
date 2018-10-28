@@ -1,5 +1,11 @@
 var hasLoadedFjs = false;
 
+function checkLoginState() {
+  FB.getLoginStatus(function(response) {
+    $('#FetchForm').submit(); 
+  });
+}
+
 $(document).ready(function() {  
 
     var dFormFetchData = $('#FetchForm');
@@ -45,7 +51,7 @@ $(document).ready(function() {
               var js, fjs = d.getElementsByTagName(s)[0];
               if (d.getElementById(id)) return;
               js = d.createElement(s); js.id = id;
-              js.src = 'https://connect.facebook.net/zh_HK/sdk.js#xfbml=1&version=v3.2&appId=1146717015478341&autoLogAppEvents=1';
+              js.src = 'https://connect.facebook.net/zh_HK/sdk.js#xfbml=1&version=v3.1&appId=1146717015478341&autoLogAppEvents=1';
               fjs.parentNode.insertBefore(js, fjs);
               }(document, 'script', 'facebook-jssdk'));
               hasLoadedFjs = true;
@@ -120,7 +126,6 @@ $(document).on("click", ".marks", function(e){
         }
       }
     });
-
 });
 
 // OnClick Enlarge iframe
