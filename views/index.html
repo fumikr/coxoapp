@@ -23,6 +23,27 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>  
       <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     
+      <script>      
+        // Validate the login status of Slack
+        function checkAccountStatus(){
+
+          if (Cookies.get('ezspassport')) {
+              // Display a green check circle if Slack passport is found in cookie
+              document.getElementById('slack-status').innerHTML = 
+                'Slack API - OK <i class="fa fa-check-circle" style="color:green"></i>';
+              setTimeout(function() { // Automatic load the main page of the web application 
+                window.location.href = "/success"; // after 0.3 seconds
+              }, 0);
+          } else {
+              document.getElementById('slack-status').innerHTML = 
+                'Please connect with Slack!'; // display if no slack cookie
+          };    
+        }
+        $(document).ready(function() {  
+          checkAccountStatus();
+        });
+      </script>
+    
       <!-- Google Tag Manager -->
       <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
       new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -37,28 +58,6 @@
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PQ7TT35"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
-    
-    <script>
-      
-      // Validate the login status of Slack
-      function checkAccountStatus(){
-        
-        if (Cookies.get('ezspassport')) {
-            // Display a green check circle if Slack passport is found in cookie
-            document.getElementById('slack-status').innerHTML = 
-              'Slack API - OK <i class="fa fa-check-circle" style="color:green"></i>';
-            setTimeout(function() { // Automatic load the main page of the web application 
-              window.location.href = "/success"; // after 0.3 seconds
-            }, 0);
-        } else {
-            document.getElementById('slack-status').innerHTML = 
-              'Please connect with Slack!'; // display if no slack cookie
-        };    
-      }
-      $(document).ready(function() {  
-        checkAccountStatus();
-      });
-    </script>
     
     <!-- HEADER -->   
     <div id="header">        
