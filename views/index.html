@@ -38,88 +38,10 @@
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     
-    <!-- FACEBOOK SOCIAL PLUGIN -->
-    <div id="fb-root"></div>
-    <script>(function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = 'https://connect.facebook.net/zh_HK/sdk.js#xfbml=1&version=v3.0&appId=1146717015478341&autoLogAppEvents=1';
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-
-    // This is called with the results from from FB.getLoginStatus().
-    function statusChangeCallback(response) {
-      console.log('statusChangeCallback');
-      console.log(response);
-      // The response object is returned with a status field that lets the
-      // app know the current login status of the person.
-      // Full docs on the response object can be found in the documentation
-      // for FB.getLoginStatus().
-      if (response.status === 'connected') {
-        // Logged into your app and Facebook.
-        testAPI();
-        $("#slack").show();
-        $("#slack-status").show();
-      } else {
-        // The person is not logged into your app or we are unable to tell.
-        document.getElementById('fb-status').innerHTML = '';
-        $("#slack").hide();
-        $("#slack-status").hide();
-      }
-    }
-
-    // This function is called when someone finishes with the Login
-    // Button.  See the onlogin handler attached to it in the sample
-    // code below.
-    function checkLoginState() {
-      FB.getLoginStatus(function(response) {
-        statusChangeCallback(response);
-      });
-    }
-
-      window.fbAsyncInit = function() {
-        FB.init({
-          appId      : '1146717015478341',
-          cookie     : true,  // enable cookies to allow the server to access 
-                              // the session
-          xfbml      : true,  // parse social plugins on this page
-          version    : 'v3.0' // use graph api version 2.8
-        });
-
-        // Now that we've initialized the JavaScript SDK, we call 
-        // FB.getLoginStatus().  This function gets the state of the
-        // person visiting this page and can return one of three states to
-        // the callback you provide.  They can be:
-        //
-        // 1. Logged into your app ('connected')
-        // 2. Logged into Facebook, but not your app ('not_authorized')
-        // 3. Not logged into Facebook and can't tell if they are logged into
-        //    your app or not.
-        //
-        // These three cases are handled in the callback function.
-
-        FB.getLoginStatus(function(response) {
-          statusChangeCallback(response);
-        });
-
-      };
-
-      // Here we run a very simple test of the Graph API after login is
-      // successful.  See statusChangeCallback() for when this call is made.
-      function testAPI() {
-        console.log('Welcome!  Fetching your information.... ');
-        FB.api('/me', function(response) {
-          console.log('Successful login for: ' + response.name);
-          checkAccountStatus();          
-        });
-      }
+    <script>
       
-      // Validate the login status of Facebook and Slack
+      // Validate the login status of Slack
       function checkAccountStatus(){
-        // Display a green check circle if already login Facebook
-        document.getElementById('fb-status').innerHTML =
-        'Facebook - OK <i class="fa fa-check-circle" style="color:green"></i>';
         
         if (Cookies.get('ezspassport')) {
             // Display a green check circle if Slack passport is found in cookie
@@ -127,15 +49,17 @@
               'Slack API - OK <i class="fa fa-check-circle" style="color:green"></i>';
             setTimeout(function() { // Automatic load the main page of the web application 
               window.location.href = "/success"; // after 0.3 seconds
-            }, 300);
+            }, 0);
         } else {
             document.getElementById('slack-status').innerHTML = 
               'Please connect with Slack!'; // display if no slack cookie
         };    
       }
+      $(document).ready(function() {  
+        checkAccountStatus();
+      });
     </script>
-    <!-- END FACEBOOK SOCIAL PLUGIN -->
-
+    
     <!-- HEADER -->   
     <div id="header">        
       <div id="top-right" style="float:right;">
@@ -151,17 +75,8 @@
     </div>
     <!-- END HEADER -->
     
-    <!-- FACEBOOK LOGIN BUTTON -->
-    <div id="fb-login" class="group">
-      <p>1. Login to Facebook</p> 
-      <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="true" data-use-continue-as="true" onlogin="checkLoginState()"></div>
-    </div>      
-
-    <div id="fb-status" style="margin:1em;"></div>
-    <!-- END OF FACEBOOK LOGIN BUTTON -->
-    
     <!-- SLACK CONNECT BUTTON -->
-    <div id="slack" class="group" style="display:none;">
+    <div id="slack" class="group">
       <p>2. Authorize Slack App</p> 
 
       <a href="/auth/slack"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>        

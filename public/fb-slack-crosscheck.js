@@ -1,3 +1,5 @@
+var hasLoadedFjs = false;
+
 $(document).ready(function() {  
 
     var dFormFetchData = $('#FetchForm');
@@ -36,14 +38,18 @@ $(document).ready(function() {
               }
             }
             $container.html('<h2>Found ' + objLendth + ' posts (' + nLiked + ' already liked)</h2>'+ output);
-            (function(d, s, id) {
+            if (hasLoadedFjs) {
+              FB.XFBML.parse();
+            } else {
+              (function(d, s, id) {
               var js, fjs = d.getElementsByTagName(s)[0];
               if (d.getElementById(id)) return;
               js = d.createElement(s); js.id = id;
-              js.src = 'https://connect.facebook.net/zh_HK/sdk.js#xfbml=1&version=v3.1&appId=1146717015478341&autoLogAppEvents=1';
+              js.src = 'https://connect.facebook.net/zh_HK/sdk.js#xfbml=1&version=v3.2&appId=1146717015478341&autoLogAppEvents=1';
               fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));
-            FB.XFBML.parse();
+              }(document, 'script', 'facebook-jssdk'));
+              hasLoadedFjs = true;
+            }
             showHideBtn();
           } else {
             $container.html('<h2>There is a problem</h2><p>' + response.error);
@@ -51,9 +57,9 @@ $(document).ready(function() {
         }
       });
     }
-  
-    dFormFetchData.submit(); 
-    
+    setTimeout(function() { 
+      dFormFetchData.submit(); 
+    }, 0);
 });
 
 // Formatting HTML output of Facbook embeeded posts
@@ -99,7 +105,7 @@ $(document).on("click", ".marks", function(e){
    var btnId = $(this).attr('id');
    var ts = {ts :　$(this).val() };
    $.ajax({
-      url: '/update',
+      url: '/update_reactions',
       type: 'post',
       data: ts,
       dataType: 'json',
