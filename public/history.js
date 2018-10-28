@@ -1,5 +1,32 @@
 $(document).ready(function() {  
   
+  checkGroups();
+  
+});
+
+function checkGroups() {
+  $.ajax({
+        url: '/checkgroups',
+        type: 'get',
+        data: '',
+        dataType: 'json',
+        error: function (xhr) {
+          alert('error: ' + xhr);
+        },
+        success: function (response) {
+          if(response.success) {
+            var groupSelect = $('select#group');
+            $.each(response.channels, function(i, val){
+              groupSelect.append(
+                $('<option></option>').val(val.id).html(val.name)
+              );
+            });
+          };
+          fetchForm();
+        }});
+}
+
+function fetchForm() {
     var dFormFetchData = $('#FetchForm');
   
     dFormFetchData.on('submit', function(e) {
@@ -16,8 +43,7 @@ $(document).ready(function() {
     dFormFetchData.submit();
   
     $("#HistoryTable").tablesorter({sortList: [[0,0]]}); 
-});
-
+};
 
 function sortAdjacency(b, a) {
   return a.reaction_count - b.reaction_count;
