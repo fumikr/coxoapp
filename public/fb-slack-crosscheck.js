@@ -1,4 +1,5 @@
 var hasLoadedFjs = false;
+var currentChannel;
 
 function checkLoginState() {
   FB.getLoginStatus(function(response) {
@@ -16,6 +17,8 @@ $(document).ready(function() {
       var dThisForm = $(this),
           action = dThisForm.attr('action');
             var data = dThisForm.serialize();
+      
+      data += '&groupname=' + $("select#group option:selected").text();
       console.log(data);
       
       getFetch(action, data);
@@ -32,7 +35,8 @@ $(document).ready(function() {
           alert('error: ' + xhr);
         },
         success: function (response) {
-          if(response.success) {            
+          if(response.success) {  
+            currentChannel = response.channel;
             var output ='';
             var nLiked = 0;
             var objLendth = response.obj.length;
@@ -64,9 +68,33 @@ $(document).ready(function() {
       });
     }
     setTimeout(function() { 
-      dFormFetchData.submit(); 
+      checkGroups();
+      //dFormFetchData.submit(); 
     }, 0);
 });
+
+
+function checkGroups() {
+  $.ajax({
+        url: '/checkgroups',
+        type: 'get',
+        data: '',
+        dataType: 'json',
+        error: function (xhr) {
+          alert('error: ' + xhr);
+        },
+        success: function (response) {
+          if(response.success) {
+            var groupSelect = $('select#group');
+            $.each(response.channels, function(i, val){
+              groupSelect.append(
+                $('<option></option>').val(val.id).html(val.name)
+              );
+            });
+            $('#FetchForm').submit(); 
+          };
+        }});
+}
 
 // Formatting HTML output of Facbook embeeded posts
 function embedFB_ui(i, url, ts, isliked) {  
@@ -109,11 +137,11 @@ function embedFB_ui(i, url, ts, isliked) {
 // OnClick Mark Like button
 $(document).on("click", ".marks", function(e){  
    var btnId = $(this).attr('id');
-   var ts = {ts :　$(this).val() };
+   var ts = $(this).val();
    $.ajax({
       url: '/update_reactions',
       type: 'post',
-      data: ts,
+      data: { ts: ts, channel: currentChannel},
       dataType: 'json',
       error: function (xhr) {
         alert('error: ' + xhr);
