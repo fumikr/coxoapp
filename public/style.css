@@ -121,6 +121,11 @@ img {
   margin: 0px 8px 20px 0px;
 }
 
+select#group {
+  height: 31px;
+  max-width: 100px;
+}
+
 .fb-post { padding: 10px 0px; margin: 1.5em ; text-align: center; }
 .liked-post { background-color: #e5e5e5; }
 .fb_iframe_widget span { background-color: white; }

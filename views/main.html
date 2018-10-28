@@ -89,7 +89,9 @@
     
     <div>
       <form id="FetchForm" action="/exec" method="get" >
-        <span>摘取最新的</span>
+        <span>從&nbsp;</span>
+        <select id="group" name="group"></select>
+        <span>&nbsp;摘取最新</span>
         <input id="read_limit" type="number" name="read_limit" min="1" max="100" value="15">
         <span>條訊息&nbsp;</span>
         <input id="reload" type="submit" value="確定">
