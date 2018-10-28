@@ -240,10 +240,31 @@ function checkArg(req, res, key, errId){
   };
 };
 
+app.get('/checkgroups', function(req, res) {
+  checkGroupPermmision(req, res); 
+});
+
+async function checkGroupPermmision(req, res) {    
+  const web = createSlackWeb(req, res, '160');
+  const channels = (process.env.SLACK_CHANNEL_IDs).split(',');
+  const names = (process.env.SLACK_CHANNEL_NAMEs).split(',');
+  
+  var groups = [];
+    for (var i in channels) {
+      await web.groups.info({
+        channel: channels[i]}).then( result => {
+        if (result.ok) { 
+          groups[i] = { id: channels[i], name:result.group.name};
+        }
+      }, reason => console.log(reason));
+    };
+    res.send({ success: true, channels: groups});
+};
 
 async function asyncFetch(req, res) {    
   var count = checkArg(req, res, 'read_limit','110');
-  var channel = process.env.DEFAULT_SLACK_CHANNEL_ID;  
+  var channel = checkArg(req, res, 'group','115');//process.env.DEFAULT_SLACK_CHANNEL_ID;
+  var channelName = checkArg(req, res, 'groupname','116');
   const web = createSlackWeb(req, res, '111');    
   if (count && web) {
     var obj = [];
@@ -278,7 +299,7 @@ async function asyncFetch(req, res) {
         };
         console.log(getUserInfo(req, res) + ' proceeded message #' + (i) + '.');
       };
-      res.send({ success: true, read_limit: count, obj: obj});
+      res.send({ success: true, channel: { id: channel, name: channelName }, read_limit: count, obj: obj});
     } catch(err) {
       res.send({ success: false , error: err});
       console.warn(err)
@@ -288,12 +309,12 @@ async function asyncFetch(req, res) {
 
 // POST method called by Mark Like buttons
 app.post('/update_reactions', function(req, res) {
-  onClickBtn(req, res); 
+  onMarkReaction(req, res); 
 });
 
 // OnClickEvent - Mark Liked on Slack
-async function onClickBtn(req, res) {    
-  
+async function onMarkReaction(req, res) {    
+  console.log(req.body)
   var ts = req.body.ts;
   if (!ts) {
     var err = 'Error(120): 無法讀取參數。';
@@ -303,13 +324,13 @@ async function onClickBtn(req, res) {
   }
   
   const web = createSlackWeb(req, res, '141');
-  var channel = process.env.DEFAULT_SLACK_CHANNEL_ID;  
+  var channel = req.body.channel.id;//process.env.DEFAULT_SLACK_CHANNEL_ID;  
   
   if(ts && web) {
     try {
       const result = await web.reactions.add({channel: channel, timestamp: ts, name : 'thumbsup'});
       if (!result.ok) {
-        console.log("Error(122): Slack上的「" + process.env.DEFAULT_SLACK_CHANNEL_NAME + "」Channel 讀取失敗!");
+        console.log("Error(122): Slack上的「" + req.body.channel.name + "」Channel 讀取失敗!");
       } else {      
           res.send({ success: true, status: result.acceptedScopes});
       }
@@ -486,7 +507,7 @@ async function asyncFetchHistory(req, res) {
   var nDays = checkArg(req, res, 'num_of_days', '140');
   
   const web = createSlackWeb(req, res, '141');
-  var channel = process.env.DEFAULT_SLACK_CHANNEL_ID;  
+  var channel = checkArg(req, res, 'group', '141');  
   
   // get the required time period
   var timePeriod = getTimePeriod(nDays);
