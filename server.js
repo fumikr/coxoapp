@@ -92,22 +92,18 @@ app.get('/changelog', function(req, res) {
   console.log(getUserInfo(req, res) + ' opened changelog.html');
 });
 
-app.get('/login', function(req, res) {
-  res.sendFile(__dirname + '/views/fail.html');
-  console.log(getUserInfo(req, res) + ' opened fail.html');
-});
 
 app.get('/auth/facebook', FbPassport.authenticate('facebook'));
 
 app.get('/auth/facebook/callback', 
-  SlackPassport.authenticate('facebook', { failureRedirect: '/login', session: false }),
+  FbPassport.authenticate('facebook', { failureRedirect: '/fail', session: false }),
     (req, res) => res.redirect('/setcookie') 
 );
 
 app.get('/auth/slack', SlackPassport.authorize('Slack'));
 
 app.get('/auth/slack/callback', 
-  SlackPassport.authenticate('Slack', { failureRedirect: '/login', session: false }),
+  SlackPassport.authenticate('Slack', { failureRedirect: '/fail', session: false }),
     (req, res) => {
         console.log('slack callback')
         if (!isValidMember(req.user.team.id)) res.redirect('/logoff') 
@@ -291,7 +287,7 @@ async function asyncFetch(req, res) {
 };
 
 // POST method called by Mark Like buttons
-app.post('/update', function(req, res) {
+app.post('/update_reactions', function(req, res) {
   onClickBtn(req, res); 
 });
 
