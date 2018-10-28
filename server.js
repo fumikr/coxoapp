@@ -31,6 +31,7 @@ SlackPassport.use(new SlackStrategy({
     clientID: process.env.SLACK_CLIENT_ID,
     clientSecret: process.env.SLACK_SECRET,
     skipUserProfile: false, // default
+    //state: 'aabbCCddeeFF',
     callbackURL: 'https://'+process.env.PROJECT_DOMAIN+'.glitch.me/auth/slack/callback',
     scope: ['reactions:write','reactions:read','groups:history','groups:read','incoming-webhook'] 
   },
@@ -42,7 +43,7 @@ SlackPassport.use(new SlackStrategy({
     var jwt = require('jwt-simple');
     var encoded = jwt.encode(accessToken, process.env.SECRET);
   
-    User = { oauthID: profile.id,
+    User = {  oauthID: profile.id,
               auth: encoded,
               name: profile.displayName,
               created: Date.now() }
@@ -106,9 +107,13 @@ app.get('/auth/slack/callback',
   SlackPassport.authenticate('Slack', { failureRedirect: '/fail', session: false }),
     (req, res) => {
         console.log('slack callback')
+  console.log(req.query)
         if (!isValidMember(req.user.team.id)) res.redirect('/logoff') 
-         else res.redirect('/setcookie') ;
-        
+         else if (req.query.state){
+             res.redirect('/auth/slack');
+         } else {
+           res.redirect('/setcookie') ;
+         }
   }
 );
 
