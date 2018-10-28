@@ -542,7 +542,8 @@ async function asyncFetchHistory(req, res) {
               if (!users.hasOwnProperty(uid)) {
                 if (!mbdata[uid]) {
                   console.log("Error(142): Missing User Data => " + uid);
-                  addMembers2db(req, res, uid);
+                  await addMembers2db(req, res, uid);
+                  mbdata = await getAllMbDataFromDb();
                 }
                 users[uid] = { avatar: mbdata[uid].avatar, 
                                  name: mbdata[uid].name, num_of_posts: 1, 
@@ -570,7 +571,8 @@ async function asyncFetchHistory(req, res) {
                    if (!users[uid].adjacency[liker]) {
                      if (!mbdata[liker]) {
                        console.log("Error(143): Missing User Data => " + liker);
-                       addMembers2db(req, res, liker);
+                       await addMembers2db(req, res, liker);
+                       mbdata = await getAllMbDataFromDb();
                      }     
                      users[uid].adjacency[liker] = {
                                      avatar: mbdata[liker].avatar,
