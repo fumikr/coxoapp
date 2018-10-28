@@ -22,7 +22,7 @@
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-      <script src="foo.js"></script>
+      <script src="fb-slack-crosscheck.js"></script>
       <script>
         // Exit and return Home page if no access right
         if (!Cookies.get('ezspassport')) {              
@@ -87,16 +87,20 @@
     
     <br><p>品牌修煉是達人圈子專為修畢品牌修煉的成員而設的頻道，<br>張貼Facebook「個人」account的posts，互相給Like而設。</p><br>
     
-    <form id="FetchForm" action="/exec" method="get" >
-      <span>摘取最新的</span>
-      <input id="read_limit" type="number" name="read_limit" min="1" max="100" value="15">
-      <span>條訊息&nbsp;</span>
-      <input id="reload" type="submit" value="確定">
-    </form>
-    <!-- END RELOAD FORM -->    
+    <div>
+      <form id="FetchForm" action="/exec" method="get" >
+        <span>摘取最新的</span>
+        <input id="read_limit" type="number" name="read_limit" min="1" max="100" value="15">
+        <span>條訊息&nbsp;</span>
+        <input id="reload" type="submit" value="確定">
+      </form>
+      <!-- END RELOAD FORM -->    
 
-    <!-- HIDE BUTTON -->
-    <button id="hide" value="false">隱藏Liked</button>
+      <!-- HIDE BUTTON -->
+      <button id="hide" value="false">隱藏Liked</button>
+    </div>
+    <!-- FACEBOOK LOGIN BUTTON -->
+    <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="true" onlogin="checkLoginState()"></div>
     
     <!-- OUTPUT AREA -->
     <div id="container"></div>
