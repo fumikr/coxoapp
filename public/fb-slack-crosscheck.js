@@ -47,7 +47,11 @@ $(document).ready(function() {
                 nLiked++;
               }
             }
-            $container.html('<h2>Found ' + objLendth + ' posts (' + nLiked + ' already liked)</h2>'+ output);
+        var hideBtn = '<!-- HIDE BUTTON --><button id="hide" value="false"></button>';
+        var h2Html = '<h2>找到 ' + objLendth + ' Fb Posts (&nbsp;' + nLiked + ' 已讚好 ' + hideBtn + ' )</h2>' ;            
+        var fbLoginBtn = '<!-- FACEBOOK LOGIN BUTTON --><div class="fb-login-button" data-max-rows="1" data-size="small" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="true" data-use-continue-as="true" onlogin="checkLoginState();"></div>';
+            
+            $container.html(fbLoginBtn + h2Html + output);
             if (hasLoadedFjs) {
               FB.XFBML.parse();
             } else {
@@ -113,8 +117,8 @@ function embedFB_ui(i, url, ts, isliked) {
   
   var encodedUrl = encodeURIComponent(url);
   
-  if (isliked) { htmltxt += '<div class="fb-post liked-post">'; }
-  else { htmltxt += '<div class="fb-post">'; }
+  if (isliked) { htmltxt += '<div class="post-shell liked-post">'; }
+  else { htmltxt += '<div class="post-shell">'; }
   
   // Embed each facebook post
   var dataWidth = 500;
@@ -126,11 +130,11 @@ function embedFB_ui(i, url, ts, isliked) {
   //htmltxt += '<button class="enlarge" value="fb-iframe_' + i + '" type="submit">+</button>';
   
   // Display URL as caption
-  htmltxt += '<br><a href="' + url + '" target="_blank">在Facebook開啟</a>&nbsp;&nbsp;&nbsp;';
+  htmltxt += '<div class="shell-menu"><a href="' + url + '" target="_blank">在Facebook開啟</a>&nbsp;&nbsp;&nbsp;';
   // Display a correspending button
   htmltxt += '<button class="marks" id="markbtn' + i + '" type="submit" value="' + ts + '">標記到<i class="fa fa-slack"></i>slack</button>';
   if (isliked){ htmltxt += ' <i class="fa fa-check-circle" style="color:green"></i>'; }
-  htmltxt += '</div>';
+  htmltxt += '</div></div>';
   return htmltxt;
 };
 
@@ -168,8 +172,7 @@ $(document).on("click", "#hide", function(e){
     if ($(this).val() == 'false') {
       $('.liked-post').hide();
       $(this).val('true');
-      $(this).html('顯示Liked');
-      $(this).after(' <i class="fa fa-eye-slash"></i>');
+      $(this).html('<i class="fa fa-eye-slash"></i>');
     }
     else {
       showHideBtn();
@@ -180,6 +183,5 @@ function showHideBtn() {
   $('.liked-post').show();
   var x = $('#hide');
   x.val('false');
-  x.html('隱藏Liked');
-  x.next('i').remove();
+  x.html('<i class="fa fa-eye">');
 };
