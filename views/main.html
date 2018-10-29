@@ -10,8 +10,8 @@
 <!DOCTYPE html>
 <html lang="zh-hk">
   <head>
-    <title>達人專用 - 品牌修煉 Click Like 助手</title>
-      <meta name="description" content="品牌修煉 Click Like 助手">
+    <title>品牌修煉 讚好助手</title>
+      <meta name="description" content="達人專用 - 品牌修煉 讚好助手">
       <link rel="shortcut icon" type="image/png" href="https://cdn.glitch.com/a3976d00-9d54-4c1e-afee-614347c571f1%2Flike_1.png?1532738313140"/>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -62,7 +62,7 @@
       </div>
       <h1><a name="top"></a><a href="/" id="icon">
         <img src="https://cdn.glitch.com/a3976d00-9d54-4c1e-afee-614347c571f1%2Flike_1.png?1532738313140" height="64"></a>
-        品牌修煉 Click LIKE助手
+        品牌修煉 - 讚好助手
       </h1>
     </div>
     <!-- END OF HEADER -->
@@ -74,7 +74,7 @@
     
     
     <!-- START BREADCRUMB -->
-    <table cellpadding="0" cellspacing="0" border="0" style="width:50%">
+    <table cellpadding="0" cellspacing="0" border="0">
       <tr>
         <td id="breadcrumb">
           <b>讚好助手</b> &nbsp;|&nbsp; <a href="/history" id="goHistory">粉絲分析助手</a>
@@ -85,7 +85,7 @@
     
      <!-- RELOAD FORM -->
     
-    <br><p>品牌修煉是達人圈子專為修畢品牌修煉的成員而設的頻道，<br>張貼Facebook「個人」account的posts，互相給Like而設。</p><br>
+    <div id="page-description"><p>品牌修煉是達人圈子專為修畢品牌修煉的成員而設的頻道，張貼Facebook「個人」account的posts，互相給Like而設。</p></div>
     
     <div>
       <form id="FetchForm" action="/exec" method="get" >
@@ -97,13 +97,8 @@
         <input id="reload" type="submit" value="確定">
       </form>
       <!-- END RELOAD FORM -->    
-
-      <!-- HIDE BUTTON -->
-      <button id="hide" value="false">隱藏Liked</button>
     </div>
-    <!-- FACEBOOK LOGIN BUTTON -->
-    <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="true" data-use-continue-as="true" onlogin="checkLoginState();"></div>
-    
+      
     <!-- OUTPUT AREA -->
     <div id="container"></div>
 

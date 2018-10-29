@@ -58,13 +58,11 @@ button:active {
 }
 
 button#hide {
-  margin-bottom: 10px;
   padding: 5px;
   border: 1px solid lightgrey;
   font-size: 16px;
   border-radius:  20px; 
   vertical-align: bottom;
-  min-width: 112px;
 }
 
 a.button {
@@ -98,9 +96,19 @@ div.group {
   max-width: 290px;
 }
 
+div#page-description {
+  max-width: 420px; 
+}
+
+.fb-login-button {
+  margin-top: 20px;
+  top: 10px
+}
+
 form#FetchForm {
   display:inline-flex;
   background: aliceblue;
+  width:100%;
 }
 
 form#FetchForm span {
@@ -124,12 +132,19 @@ img {
 
 select#group {
   height: 31px;
-  max-width: 100px;
+  max-width: 200px;
+  width: 100%;
   min-width: 75px;
 }
 
-.fb-post { padding: 10px 0px; margin: 1.5em ; text-align: center; }
+select#num_of_days {
+   height: 31px;
+   max-width: 100px;
+}
+
+.post-shell { padding: 10px 0px; margin: 1.5em ; text-align: center; border: 1px solid #e5e5e5;}
 .liked-post { background-color: #e5e5e5; }
+.shell-menu { padding-top: 10px; }
 .fb_iframe_widget span { background-color: white; }
 
 #top-right li {
@@ -155,7 +170,7 @@ select#group {
   float: right;
   top: -55px;
   padding: 15px;
-  margin: 10px;
+  margin: 20px 10px -30px 10px;
   position:  relative;
   border: 4px solid #40d3ff;
   border-radius:  15px;
@@ -214,10 +229,14 @@ div#content {
   .fb-post { margin: 1.5em 0 ; }
   .fb_iframe_widget { margin: 0 ; }
   body { margin : 0; }
-  div#header { text-align : center;  }
+  div#header h1 { 
+    max-width: 75%;
+    text-align-last: right;
+  }
   #news-banner {
     float: unset;
     top: unset;
+    margin: -25px auto 20px auto;
   }
   
   table#HistoryTable #col1 {
