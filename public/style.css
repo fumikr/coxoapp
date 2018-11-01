@@ -63,6 +63,7 @@ button#hide {
   font-size: 16px;
   border-radius:  20px; 
   vertical-align: bottom;
+  min-width: 31px;
 }
 
 a.button {
@@ -139,7 +140,9 @@ select#group {
 
 select#num_of_days {
    height: 31px;
-   max-width: 100px;
+   min-width: 50px;
+   width: 100%;
+   max-width: 150px;
 }
 
 .post-shell { padding: 10px 0px; margin: 1.5em ; text-align: center; border: 1px solid #e5e5e5;}
@@ -226,7 +229,7 @@ div#content {
 
 /* Use a media query to add a break point at 600px: */
 @media screen and (max-width:600px) {  
-  .fb-post { margin: 1.5em 0 ; }
+  .post-shell { margin: 1.5em 0 ; padding: 15px 10px; }
   .fb_iframe_widget { margin: 0 ; }
   body { margin : 0; }
   div#header h1 { 

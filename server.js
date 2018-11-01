@@ -540,7 +540,7 @@ async function asyncFetchHistory(req, res) {
           var message = messages[i];
           // Chech if this message attached a facebook post
           if (message.hasOwnProperty('attachments')){          
-            if (message.attachments[0].original_url.includes('.facebook.com')){
+            if (message.attachments[0].original_url && message.attachments[0].original_url.includes('.facebook.com')){
               // Add a new user if the liker is not in the list of users;
               // else, increase the count of user's posts.
               const uid = message.user;
