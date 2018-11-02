@@ -537,7 +537,16 @@ async function asyncFetchHistory(req, res) {
         var messages = result.messages;
         // for each slack messages in the history
         for (var i = 0 ; i < messages.length; i++) {
-          var message = messages[i];
+          var uid = messages[i].user;
+          if (!mbdata[uid]) {
+            console.log("Error(142): Missing User Data => " + uid);
+            await addMembers2db(req, res, uid);
+            mbdata = await getAllMbDataFromDb();
+          };
+        };
+          
+        for (var i = 0 ; i < messages.length; i++) {
+          var message = messages[i];  
           // Chech if this message attached a facebook post
           if (message.hasOwnProperty('attachments')){          
             if (message.attachments[0].original_url && message.attachments[0].original_url.includes('.facebook.com')){
@@ -545,11 +554,6 @@ async function asyncFetchHistory(req, res) {
               // else, increase the count of user's posts.
               const uid = message.user;
               if (!users.hasOwnProperty(uid)) {
-                if (!mbdata[uid]) {
-                  console.log("Error(142): Missing User Data => " + uid);
-                  await addMembers2db(req, res, uid);
-                  mbdata = await getAllMbDataFromDb();
-                }
                 users[uid] = { avatar: mbdata[uid].avatar, 
                                  name: mbdata[uid].name, num_of_posts: 1, 
                                  num_of_reacts: 0, adjacency: {}};
@@ -571,14 +575,17 @@ async function asyncFetchHistory(req, res) {
                 // for each of unique likers found
                 for (var m in likers) {
                    var liker = likers[m];
+                   if (!mbdata[liker]) {
+                     console.log("Error(143): Missing User Data => " + liker);
+                     await addMembers2db(req, res, liker);
+                     mbdata = await getAllMbDataFromDb();
+                   };
+                };
+                for (var m in likers) {
+                   var liker = likers[m];
                    // if this liker has not registered in the adjacency list of current user,
                    // create a new record to the adjacency list; else, increase the corresponding counter.
-                   if (!users[uid].adjacency[liker]) {
-                     if (!mbdata[liker]) {
-                       console.log("Error(143): Missing User Data => " + liker);
-                       await addMembers2db(req, res, liker);
-                       mbdata = await getAllMbDataFromDb();
-                     }     
+                   if (!users[uid].adjacency[liker]) {   
                      users[uid].adjacency[liker] = {
                                      avatar: mbdata[liker].avatar,
                                      name: mbdata[liker].name,
