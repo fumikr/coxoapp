@@ -79,60 +79,89 @@ app.use(SlackPassport.session());
 // index route
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/', function(req, res) {
-  res.sendFile(__dirname + '/views/index.html');
-  console.log(getUserInfo(req, res) + ' opened index.html');
+  logUserPageView(req, res, 'open /')
+  if (req.cookies.ezspassport) {
+    res.redirect('/start');
+  } else {
+    res.sendFile(__dirname + '/views/index.html');
+  }
 });
 
-app.get('/how-to-use', function(req, res) {
-  res.sendFile(__dirname + '/views/how-to-use.html');
-  console.log(getUserInfo(req, res) + ' opened how-to-use.html');
+// routing to Fans Analysis Assistant
+app.get('/analytics', function(req, res) {
+  logUserPageView(req, res, 'open /analytics');
+  if (getTokenFromCookie(req, res).ok) {
+    res.sendFile(__dirname + '/views/analytics.html');
+  };
 });
-
-app.get('/changelog', function(req, res) {
-  res.sendFile(__dirname + '/views/changelog.html');
-  console.log(getUserInfo(req, res) + ' opened changelog.html');
-});
-
 
 app.get('/auth/facebook', FbPassport.authenticate('facebook'));
 
 app.get('/auth/facebook/callback', 
   FbPassport.authenticate('facebook', { failureRedirect: '/fail', session: false }),
-    (req, res) => res.redirect('/setcookie') 
+    (req, res) => res.redirect('/') 
 );
 
 app.get('/auth/slack', SlackPassport.authorize('Slack'));
 
 app.get('/auth/slack/callback', 
-  SlackPassport.authenticate('Slack', { failureRedirect: '/fail', session: false }),
-    (req, res) => {
-        console.log('slack callback')
-  console.log(req.query)
-        if (!isValidMember(req.user.team.id)) res.redirect('/logoff') 
-         else if (req.query.state){
-             res.redirect('/auth/slack');
-         } else {
-           res.redirect('/setcookie') ;
-         }
-  }
+  SlackPassport.authenticate(
+    'Slack', { failureRedirect: '/fail', session: false }),
+        (req, res) => {
+            console.log('slack callback');
+            console.log(req.query);
+            if (isValidMember(req.user.team.id)) {
+              if (req.query.state){
+                 res.redirect('/auth/slack');
+              } else {
+                 res.redirect('/setcookie') ;
+              };
+            }
+            else {
+              res.redirect('/logoff');
+            }
+        }
 );
+
+app.get('/changelog', function(req, res) {
+  res.sendFile(__dirname + '/views/changelog.html');
+  logUserPageView(req, res, 'open changelog.html');
+});
+
+app.get('/checkgroups', function(req, res) {
+  logUserPageView(req, res, 'access /checkgroups');
+  checkGroupPermmision(req, res); 
+});
+
+
+app.get('/exec', function(req, res) {
+  fetchFbPosts(req, res); 
+});
+
+app.get('/fail', function(req, res) {
+  res.sendFile(__dirname + '/views/fail.html');
+  logUserPageView(req, res, 'open fail.html');
+});
+
+// routing to GET Fans Analysis API
+app.get('/getAnalytics', function(req, res) {
+  asyncFetchHistory(req, res); 
+});
+
+app.get('/how-to-use', function(req, res) {
+  res.sendFile(__dirname + '/views/how-to-use.html');
+  logUserPageView(req, res, 'open how-to-use.html');
+});
 
 // on clicking "logoff" the cookie is cleared
 app.get('/logoff',
   function(req, res) {
-    console.log(getUserInfo(req, res) + ' Logoff');  
+    logUserPageView(req, res, 'Logoff');  
     res.clearCookie('ezsfbmaster-passport');
     res.clearCookie('ezspassport');
-    res.redirect('/');    
+    res.redirect('/');
   }
 );
-
-function isValidMember(teamId){
-  if ( teamId == process.env.DEFAULT_SLACK_TEAM_ID) {
-     return true;
-  }
-  return false;
-}
 
 /* Cookie Handling Functions*/
 
@@ -144,48 +173,72 @@ app.get('/setcookie', function(req, res) {
       res.cookie('ezsfbmaster-passport', new Date());
       res.cookie('ezspassport', User, { expires: OneYear });
       res.redirect('/success');
-      console.log(getUserInfo(req, res) + ' sucessfully set cookie');
+      logUserPageView(req, res, 'sucessfully set cookie');
   }
 );
+
+// routing to 
+app.get('/setdb', function(req, res) {
+  logUserPageView(req, res, 'set Member Database');
+  setMemberDB(req, res);
+});
+
+/* Start of Facebook Click Assistant page */
+app.get('/start', function(req, res) {
+  logUserPageView(req, res, 'open /start');
+  if (getTokenFromCookie(req, res).ok) {
+    res.sendFile(__dirname + '/views/main.html');
+  };
+});
 
 // if cookie exists, success. otherwise, user is redirected to index
 app.get('/success', function(req, res) {
-    console.log(getUserInfo(req, res) + ' pass Success');
-    if(req.cookies['ezspassport']) {
-      if (getTokenFromCookie(req, res).ok) { res.redirect('/start'); }
-      else {
-        res.redirect('/');
-      }
-    } else {
-      res.redirect('/');
-    }
+    logUserPageView(req, res, 'pass Success');
+    res.redirect('/start');
   }
 );
 
-app.get('/fail', function(req, res) {
-  res.sendFile(__dirname + '/views/fail.html');
-  console.log(getUserInfo(req, res) + ' opened fail.html');
+app.get('/updatebase', function(req, res) {
+  logUserPageView(req, res, 'access /updatebase');
+  try {
+    var member = checkArg(req, res, 'member', '150');
+    if (member.length == 9) {
+      WriteMembers2db(req, res, member);
+    };
+  } catch (err) {
+    res.send({ success: false, error: err});
+  };
 });
+
+
+function logUserPageView(req, res, msg){
+  console.log(getUserInfo(req, res) + ' ' + msg);
+};
+
+
+function isValidMember(teamId){
+  if ( teamId == process.env.DEFAULT_SLACK_TEAM_ID) {
+     return true;
+  }
+  return false;
+}
 
 function getTokenFromCookie(req, res) {
   var xToken = '';
   if (req.cookies.ezspassport) {
     xToken = req.cookies.ezspassport.auth;
-  }
-  else {
-    return {ok: false, error: 'No OAuth Data'} ;
-  }
-  
-  if (xToken && xToken.startsWith("xoxp-")) { 
-    return xToken;
-  } else {
     var jwt = require('jwt-simple');
     var decoded = jwt.decode(xToken, process.env.SECRET); 
     if (decoded.startsWith("xoxp-")) {
       return {ok: true, value: decoded};
+    } else {
+      res.redirect('/logoff');
+      return {ok: false, error: 'Wrong OAuth Data' };
     }
-    return {ok: false, error: 'Wrong OAuth Data' };
-  }
+  } else {
+    res.redirect('/');
+    return {ok: false, error: 'No OAuth Data'} ;
+  } 
 }
 
 function getUserIdFromCookie(req, res) {
@@ -209,16 +262,6 @@ function getUserInfo(req,res) {
 }
 
 /* End of Cookie Handling Functions*/
-
-/* Start of Facebook Click Assistant page */
-app.get('/start', function(req, res) {
-  res.sendFile(__dirname + '/views/main.html');
-  console.log(getUserInfo(req, res) + ' opened main.html');
-});
-
-app.get('/exec', function(req, res) {
-  asyncFetch(req, res); 
-});
 
 function createSlackWeb(req, res, errId){
   var token = getTokenFromCookie(req, res);
@@ -245,14 +288,14 @@ function checkArg(req, res, key, errId){
   };
 };
 
-app.get('/checkgroups', function(req, res) {
-  checkGroupPermmision(req, res); 
-});
+function get_channel_ids() {
+  const ids = (process.env.SLACK_CHANNEL_IDs).split(',');
+  return ids;
+};
 
 async function checkGroupPermmision(req, res) {    
   const web = createSlackWeb(req, res, '160');
-  const channels = (process.env.SLACK_CHANNEL_IDs).split(',');
-  const names = (process.env.SLACK_CHANNEL_NAMEs).split(',');
+  const channels = get_channel_ids();
   
   var groups = [];
     for (var i in channels) {
@@ -266,50 +309,49 @@ async function checkGroupPermmision(req, res) {
     res.send({ success: true, channels: groups});
 };
 
-async function asyncFetch(req, res) {    
-  var count = checkArg(req, res, 'read_limit','110');
-  var channel = checkArg(req, res, 'group','115');//process.env.DEFAULT_SLACK_CHANNEL_ID;
-  var channelName = checkArg(req, res, 'groupname','116');
+async function fetchFbPosts(req, res) {    
+  const count = checkArg(req, res, 'read_limit','110');
+  const channel_id = checkArg(req, res, 'group','115');//process.env.DEFAULT_SLACK_CHANNEL_ID;
+  const channel_name = checkArg(req, res, 'groupname','116');
   const web = createSlackWeb(req, res, '111');    
   if (count && web) {
     var obj = [];
     try {
-      const result = await web.groups.history({channel: channel, count: count});
-      if (!result.ok) {
-        throw new Error('Error(112) Failed to fetch history of messages and events from a private channel.');
-      } else {
-        var messages = result.messages;
-        for (var i = 0 ; i < messages.length; i++) {
-          var message = messages[i];
+      const userId = getUserIdFromCookie(req, res);
+      const result = await web.groups.history({channel: channel_id, count: count});
+      if (result.ok) {
+        for (var i = 0 ; i < result.messages.length; i++) {
+          const message = result.messages[i];
           if (message.hasOwnProperty('attachments')){          
-            var ts = message.ts;
-            var url = message.attachments[0].original_url;
-
-            // check if the post has aleary marked on Slack
-            var isliked = false;
-            var userId = getUserIdFromCookie(req, res);
-            if (message.hasOwnProperty('reactions')){                   
-              for (var j in message.reactions) {
-                var likedusers = message.reactions[j].users;                           
-                for (var k in likedusers) {
-                  var uid = likedusers[k];
-                  if (uid == userId) { isliked = true; break;}                                
-                };
-                if (isliked) { break; }
-              };
-            }; 
-            obj.push({ind: i, url: url, ts: ts, isliked: isliked})
+            const url = message.attachments[0].original_url;
+            if (url) {
+              obj.push({ind: i, url: url, ts: message.ts, 
+                        isliked: isLikedbyUser(message, userId) });
+            }
           };
-          //output += i+1 + ". ts: " + ts + ", url: " + url + ", isliked: " + isliked + ";<br>"
         };
-        console.log(getUserInfo(req, res) + ' proceeded message #' + (i) + '.');
+        logUserPageView(req, res, 'proceeded ' + i + ' messages.');
+        res.send({ success: true, channel: { id: channel_id, name: channel_name }, read_limit: count, obj: obj});
+      } else {
+        throw new Error('(112) Failed to fetch history of messages and events from a private channel.');
       };
-      res.send({ success: true, channel: { id: channel, name: channelName }, read_limit: count, obj: obj});
     } catch(err) {
       res.send({ success: false , error: err});
       console.warn(err)
     }
   }
+};
+
+// check if the post has aleary marked on Slack by a specifiy user
+function isLikedbyUser(message, userId) {
+    var isliked = false;
+    if (message.hasOwnProperty('reactions')){                   
+    for (var j in message.reactions) {
+      var likedusers = message.reactions[j].users;                                     isliked = likedusers.includes(userId);
+      if (isliked) { break; }
+    };
+    return isliked;
+  }; 
 };
 
 // POST method called by Mark Like buttons
@@ -370,15 +412,15 @@ function checkTableExists(name) {
     console.log('checking table');
     var hasTable = sqlite.run("SELECT count(*) FROM sqlite_master WHERE type = 'table' AND name = '" 
                               + name + "'" );
-    console.log(hasTable);
     if (Object.values(hasTable[0]) > 0) {
+      console.log('Table exists.');
       return true;
     };
   }
   return false;
 };
 
-function createTable(name) {
+function createTableIfNotExist(name) {
   if (exists && !checkTableExists(name)) {
     db.serialize(function(){
       db.run('CREATE TABLE ' + name + ' (uid TEXT unique, name TEXT, avatar TEXT);');
@@ -399,56 +441,54 @@ function write2db(uid, name, avatar) {
   };
 };
 
-async function addMembers2db(req, res, members) {
+function onlyUnique(value, index, self) { 
+    return self.indexOf(value) === index;
+};
+
+async function WriteMembers2db(req, res, members) {
   var token = process.env.SLACK_TOKEN;
   const { WebClient } = require('@slack/client');    
   const web = new WebClient(token);
-  console.log('Try to add members to database');
+  console.log('Try to update members to database');
   if (typeof(members) == 'string') {
     members = [members];
     console.log(members.length);
   }
-  for (var m in members){
-    console.log('Try to add ' + members[m] + ' to database');
-    const uInfo = await web.users.info({user: members[m]}); 
+  var uids = members.filter(onlyUnique);
+  for (var i in uids){
+    console.log('Try to add ' + uids[i] + ' to database');
+    const uid = uids[i];
+    const uInfo = await web.users.info({user: uid}); 
     if (!uInfo.ok) {
-       throw new Error('Error(133) Failed to get information about a user.')
+       console.log('Error(133) Failed to get information about a user.')
     };
-    console.log('Add a new member to database')
-    write2db(members[m], uInfo.user.real_name, uInfo.user.profile.image_32);
+    console.log('update Member ' + uid + ' in database')
+    write2db(uid, uInfo.user.real_name, uInfo.user.profile.image_32);
   };
   console.log('Database "Members" ready to go!');
-    //db.each('SELECT * from Members', function(err, row) {
-     // if ( row ) {
-        //console.log('record:', row);
-      //}
-    //});
 };
-
-// routing to 
-app.get('/createMemberDatabase', function(req, res) {
-  console.log(getUserInfo(req, res) + ' create Member Database');
-  asyncCreateMemberDatabase(req, res);
-});
 
 // fetch members' data and store to database
-async function asyncCreateMemberDatabase(req, res) {  
+async function setMemberDB(req, res) {  
   const web = createSlackWeb(req, res, '141');
-  var channel = process.env.DEFAULT_SLACK_CHANNEL_ID;  
-  
-  const gInfo = await web.groups.info({channel: channel});
-  if (!gInfo.ok) {
-    throw new Error('Error(130) Failed to get information about a private channel.')
-  } else {
-    console.log('Successful get group member list.')
-    var members = gInfo.group.members;
-    createTable('Members');
-    addMembers2db(req, res, members);
-    res.send('Successfully created Member Database!');
-  };  
+  var channels = get_channel_ids();
+  console.log('Preparing to set Database...');
+  var members = [];
+  for (var i in channels) {
+    const gInfo = await web.groups.info({channel: channels[i]});
+    if (gInfo.ok) {
+      console.log('Successful got group member list #' + i);
+      members += gInfo.group.members;
+    } else {
+      console.log('Error:(130) Failed to get information about a private channel.')
+      return false;
+    };
+  };
+  createTableIfNotExist('Members');
+  WriteMembers2db(req, res, members.split(','));
+  res.send('Successfully Updated Member Database!');
+  return true;
 };
-
-//async function
 
 // get the avatar of a specific user from database
 function getNameAvatar(uid) {
@@ -481,7 +521,7 @@ function onSlackEvent(req, res) {
 function addMemberByJoinEvent(req, res){
   if (req.event.type === 'member_joined_channel') {
     if (req.event.channel === process.env.DEFAULT_SLACK_CHANNEL_ID){
-      addMembers2db(req, res, req.event.user);
+      WriteMembers2db(req, res, req.event.user);
     }
   } else  {
     console.log(req.event);
@@ -490,22 +530,6 @@ function addMemberByJoinEvent(req, res){
 
 app.use('/slack/events', bodyParser.json(), slackEvents);
 
-app.get('/updatebase', function(req, res) {
-  var member = checkArg(req, res, 'member', '150');
-  console.log(member);
-  addMembers2db(req, res, member);
-});
-
-// routing to Fans Analysis Assistant
-app.get('/history', function(req, res) {
-  res.sendFile(__dirname + '/views/history.html');
-  console.log(getUserInfo(req, res) + ' opened history.html');
-});
-
-// routing to GET Fans Analysis API
-app.get('/getHistory', function(req, res) {
-  asyncFetchHistory(req, res); 
-});
 
 // Fans Analysis functoin
 async function asyncFetchHistory(req, res) {    
@@ -540,7 +564,7 @@ async function asyncFetchHistory(req, res) {
           var uid = messages[i].user;
           if (!mbdata[uid]) {
             console.log("Error(142): Missing User Data => " + uid);
-            await addMembers2db(req, res, uid);
+            await WriteMembers2db(req, res, uid);
             mbdata = await getAllMbDataFromDb();
           };
         };
@@ -577,7 +601,7 @@ async function asyncFetchHistory(req, res) {
                    var liker = likers[m];
                    if (!mbdata[liker]) {
                      console.log("Error(143): Missing User Data => " + liker);
-                     await addMembers2db(req, res, liker);
+                     await WriteMembers2db(req, res, liker);
                      mbdata = await getAllMbDataFromDb();
                    };
                 };
