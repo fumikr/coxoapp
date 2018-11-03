@@ -26,13 +26,7 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.30.7/js/jquery.tablesorter.js"></script> 
-      <script src="history.js"></script>
-      <script>
-        // Exit and return Home page if no access right
-        if (!Cookies.get('ezspassport')) {              
-            window.location.href = "/";
-        }        
-      </script>
+      <script src="analytics.js"></script>
     
       <!-- Google Tag Manager -->
       <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -85,7 +79,7 @@
     <br clear="all" />
     
      <!-- RELOAD FORM -->
-    <form id="FetchForm" action="/getHistory" method="get" style="float: right;">
+    <form id="FetchForm" action="/getAnalytics" method="get" style="float: right;">
       <span>從&nbsp;</span>
       <select id="group" name="group"></select>
       <select id="num_of_days" name="num_of_days">
