@@ -108,34 +108,35 @@ function embedFB_ui(i, url, ts, isliked) {
   const regex_id = /\Wid=([0-9]+)/;
   var res_fbid = regex_fbid.exec(url);
   var res_id = regex_id.exec(url);
-  if (res_fbid && res_id) {
-    var old_url = url;
-    url = 'https://www.facebook.com/' + res_id[1] + '/posts/' + res_fbid[1];
-  }
-  console.log(url);
-  url = url.replace('m.facebook.com', 'www.facebook.com');
-  
-  var encodedUrl = encodeURIComponent(url);
-  
-  if (isliked) { htmltxt += '<div class="post-shell liked-post">'; }
-  else { htmltxt += '<div class="post-shell">'; }
-  
-  // Embed each facebook post
-  var dataWidth = 500;
-  if (screen.width < dataWidth) {
-    dataWidth = screen.width;
+  if (url) {
+    if (res_fbid && res_id) {
+      var old_url = url;
+      url = 'https://www.facebook.com/' + res_id[1] + '/posts/' + res_fbid[1];
+    }
+    url = url.replace('m.facebook.com', 'www.facebook.com');
+
+    var encodedUrl = encodeURIComponent(url);
+
+    if (isliked) { htmltxt += '<div class="post-shell liked-post">'; }
+    else { htmltxt += '<div class="post-shell">'; }
+
+    // Embed each facebook post
+    var dataWidth = 500;
+    if (screen.width < dataWidth) {
+      dataWidth = screen.width;
+    };
+    //htmltxt += '<iframe class="fb-iframe" id="fb-iframe_' + i + '" src="https://www.facebook.com/plugins/post.php?href='+ encodedUrl + '&width=500&appId=' + process.env.FACEBOOK_APP_ID + '" width="500" height="500" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>';
+    htmltxt += '<div class="fb-post" data-href="' + url +  '" data-width="' + dataWidth + '" data-show-text="true"></div>'
+    //htmltxt += '<button class="enlarge" value="fb-iframe_' + i + '" type="submit">+</button>';
+
+    // Display URL as caption
+    htmltxt += '<div class="shell-menu"><a href="' + url + '" target="_blank">在Facebook開啟</a>&nbsp;&nbsp;&nbsp;';
+    // Display a correspending button
+    htmltxt += '<button class="marks" id="markbtn' + i + '" type="submit" value="' + ts + '">標記到<i class="fa fa-slack"></i>slack</button>';
+    if (isliked){ htmltxt += ' <i class="fa fa-check-circle" style="color:green"></i>'; }
+    htmltxt += '</div></div>';
+    return htmltxt;
   };
-  //htmltxt += '<iframe class="fb-iframe" id="fb-iframe_' + i + '" src="https://www.facebook.com/plugins/post.php?href='+ encodedUrl + '&width=500&appId=' + process.env.FACEBOOK_APP_ID + '" width="500" height="500" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>';
-  htmltxt += '<div class="fb-post" data-href="' + url +  '" data-width="' + dataWidth + '" data-show-text="true"></div>'
-  //htmltxt += '<button class="enlarge" value="fb-iframe_' + i + '" type="submit">+</button>';
-  
-  // Display URL as caption
-  htmltxt += '<div class="shell-menu"><a href="' + url + '" target="_blank">在Facebook開啟</a>&nbsp;&nbsp;&nbsp;';
-  // Display a correspending button
-  htmltxt += '<button class="marks" id="markbtn' + i + '" type="submit" value="' + ts + '">標記到<i class="fa fa-slack"></i>slack</button>';
-  if (isliked){ htmltxt += ' <i class="fa fa-check-circle" style="color:green"></i>'; }
-  htmltxt += '</div></div>';
-  return htmltxt;
 };
 
 // OnClick Mark Like button

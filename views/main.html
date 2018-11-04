@@ -23,12 +23,6 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
       <script src="fb-slack-crosscheck.js"></script>
-      <script>
-        // Exit and return Home page if no access right
-        if (!Cookies.get('ezspassport')) {              
-              window.location.href = "/";
-        }        
-      </script>
     
       <!-- Google Tag Manager -->
       <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -68,16 +62,19 @@
     <!-- END OF HEADER -->
     
     <div id="news-banner">
-      <iframe src="https://onedrive.live.com/embed?cid=42A0831842844C3A&resid=42A0831842844C3A%21115063&authkey=AMH46wQB1WSRrBE" width="165" height="128" frameborder="0" scrolling="no"></iframe>
-      <br><a href="http://go.craftweeks.com/EGkXAJ" target="_blank"><i class="fa fa-cloud-download"></i></a> <a href="http://go.craftweeks.com/EGkXAJ" target="_blank">Open on OneDrive</a>
-    </div>
-    
+      
+          <blockquote class="embedly-card"><h4><a href="https://www.eventbrite.hk/e/vs-nov-5-tickets-51956548435?aff=efbevent&fbclid=IwAR08VDHOKMlhcAlA9RTvJDH7as0q2TgFvyqKVgD9cnsQE_hmRNc7Dprd5XY">超級人脈系列「投資人脈 vs 人脈投資?!」工作坊 (Nov 5)</a></h4><p>Eventbrite - 達人圈子 presents 超級人脈系列「投資人脈 vs 人脈投資?!」工作坊 (Nov 5) - Monday, 5 November 2018 at LCF Workshop. Find event and ticket information.</p></blockquote>
+    <script async src="//cdn.embedly.com/widgets/platform.js" charset="UTF-8"></script>
+      
+      <!--<iframe src="https://onedrive.live.com/embed?cid=42A0831842844C3A&resid=42A0831842844C3A%21115063&authkey=AMH46wQB1WSRrBE" width="165" height="128" frameborder="0" scrolling="no"></iframe>
+      <br><a href="http://go.craftweeks.com/EGkXAJ" target="_blank"><i class="fa fa-cloud-download"></i></a> <a href="http://go.craftweeks.com/EGkXAJ" target="_blank">Open on OneDrive</a>-->
+    </div>    
     
     <!-- START BREADCRUMB -->
     <table cellpadding="0" cellspacing="0" border="0">
       <tr>
         <td id="breadcrumb">
-          <b>讚好助手</b> &nbsp;|&nbsp; <a href="/history" id="goHistory">粉絲分析助手</a>
+          <b>讚好助手</b> &nbsp;|&nbsp; <a href="/analytics" id="goAnalytics">粉絲分析助手</a>
         </td>
       </tr>
     </table>

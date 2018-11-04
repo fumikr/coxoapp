@@ -11,7 +11,6 @@ dependencies:
   passport-oauth2: 1.4.0
   passport-slack-oauth2: 1.0.2
   slack: 11.0.1
-  slack-events-listener: 1.1.0
   sqlite-sync: 0.3.8
   sqlite3: 4.0.2
 packages:
@@ -20,7 +19,7 @@ packages:
       '@types/form-data': 2.2.1
       '@types/is-stream': 1.1.0
       '@types/loglevel': 1.5.3
-      '@types/node': 10.11.4
+      '@types/node': 10.12.2
       '@types/p-cancelable': 0.3.0
       '@types/p-queue': 2.3.1
       '@types/p-retry': 1.0.1
@@ -29,7 +28,7 @@ packages:
       axios: 0.18.0
       eventemitter3: 3.1.0
       finity: 0.5.4
-      form-data: 2.3.2
+      form-data: 2.3.3
       is-stream: 1.1.0
       loglevel: 1.6.1
       object.entries: 1.0.4
@@ -52,13 +51,13 @@ packages:
       integrity: sha512-KEIlhXnIutzKwRbQkGWb/I4HFqBuUykAdHgDED6xqwXJfONCjF5VoE0cXEiurh3XauygxzeDzgtXUqvLkxFzzA==
   /@types/form-data/2.2.1:
     dependencies:
-      '@types/node': 10.11.4
+      '@types/node': 10.12.2
     dev: false
     resolution:
       integrity: sha512-JAMFhOaHIciYVh8fb5/83nmuO/AHwmto+Hq7a9y8FzLDcC1KCU344XDOMEmahnrTFlHjgh4L0WJFczNIX2GxnQ==
   /@types/is-stream/1.1.0:
     dependencies:
-      '@types/node': 10.11.4
+      '@types/node': 10.12.2
     dev: false
     resolution:
       integrity: sha512-jkZatu4QVbR60mpIzjINmtS1ZF4a/FqdTUTBeQDVOQ2PYyidtwFKr0B5G6ERukKwliq+7mIXvxyppwzG5EgRYg==
@@ -66,10 +65,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-TzzIZihV+y9kxSg5xJMkyIkaoGkXi50isZTtGHObNHRqAAwjGNjSCNPI7AUAv0tZUKTq9f2cdkCUd/2JVZUTrA==
-  /@types/node/10.11.4:
+  /@types/node/10.12.2:
     dev: false
     resolution:
-      integrity: sha512-ojnbBiKkZFYRfQpmtnnWTMw+rzGp/JiystjluW9jgN3VzRwilXddJ6aGQ9V/7iuDG06SBgn7ozW9k3zcAnYjYQ==
+      integrity: sha512-53ElVDSnZeFUUFIYzI8WLQ25IhWzb6vbddNp8UHlXQyU0ET2RhV5zg0NfubzU7iNMh5bBXb0htCzfvrSVNgzaQ==
   /@types/p-cancelable/0.3.0:
     dev: false
     resolution:
@@ -91,7 +90,7 @@ packages:
   /@types/ws/5.1.2:
     dependencies:
       '@types/events': 1.2.0
-      '@types/node': 10.11.4
+      '@types/node': 10.12.2
     dev: false
     resolution:
       integrity: sha512-NkTXUKTYdXdnPE2aUUbGOXE1XfMK527SCvU/9bj86kyFF6kZ9ZnOQ3mK5jADn98Y2vEUD/7wKDgZa7Qst2wYOg==
@@ -174,12 +173,11 @@ packages:
       integrity: sha512-32NDda82rhwD9/JBCCkB+MRYDp0oSvlo2IL6rQWA10PQi7tDUM3eqMSltXmY+Oyl/7N3P3qNtAlv7X0d9bI28w==
   /axios/0.18.0:
     dependencies:
-      follow-redirects: 1.5.8
+      follow-redirects: 1.5.9
       is-buffer: 1.1.6
     dev: false
     resolution:
       integrity: sha1-MtU+SFHv3AoRmTts0AB4nXDAUQI=
-      tarball: 'http://registry.npmjs.org/axios/-/axios-0.18.0.tgz'
   /balanced-match/1.0.0:
     dev: false
     resolution:
@@ -267,6 +265,14 @@ packages:
       node: '>= 0.8'
     resolution:
       integrity: sha1-cj599ugBrFYTETp+RFqbactjKBg=
+  /combined-stream/1.0.7:
+    dependencies:
+      delayed-stream: 1.0.0
+    dev: false
+    engines:
+      node: '>= 0.8'
+    resolution:
+      integrity: sha512-brWl9y6vOB1xYPZcpZde3N9zDByXTosAeMDo4p1wzo6UMOX4vumB+TP1RZ76sfE6Md68Q0NJSrE/gbezd4Ul+w==
   /concat-map/0.0.1:
     dev: false
     resolution:
@@ -536,14 +542,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-3l+5/1tuw616Lgb0QBimxfdd2TqaDGpfCBpfX6EqtFmqUV3FtQnVEX4Aa62DagYEqnsTIjZcTfbq9msDbXYgyA==
-  /follow-redirects/1.5.8:
+  /follow-redirects/1.5.9:
     dependencies:
       debug: 3.1.0
     dev: false
     engines:
       node: '>=4.0'
     resolution:
-      integrity: sha512-sy1mXPmv7kLAMKW/8XofG7o9T+6gAjzdZK4AJF6ryqQYUa/hnzgiypoeUecZ53x7XiqKNEpNqLtS97MshW2nxg==
+      integrity: sha512-Bh65EZI/RU8nx0wbYF9shkFZlqLP+6WT/5FnA3cE/djNSuKNHJEinGGZgu/cQEkeeb2GdFOgenAmn8qaqYke2w==
   /forever-agent/0.6.1:
     dev: false
     resolution:
@@ -558,6 +564,16 @@ packages:
       node: '>= 0.12'
     resolution:
       integrity: sha1-SXBJi+YEwgwAXU9cI67NIda0kJk=
+  /form-data/2.3.3:
+    dependencies:
+      asynckit: 0.4.0
+      combined-stream: 1.0.7
+      mime-types: 2.1.21
+    dev: false
+    engines:
+      node: '>= 0.12'
+    resolution:
+      integrity: sha512-1lLKB2Mu3aGP1Q/2eCOx0fNbRMe7XdwktwOruhfqqd0rIJWwN4Dh+E3hrPSlDCXnSR7UtZ1N38rVXm+6+MEhJQ==
   /forwarded/0.1.2:
     dev: false
     engines:
@@ -859,6 +875,12 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha512-L+xvyD9MkoYMXb1jAmzI/lWYAxAMCPvIBSWur0PZ5nOf5euahRLVqH//FKW9mWp2lkqUgYiXPgkzfMUFi4zVDw==
+  /mime-db/1.37.0:
+    dev: false
+    engines:
+      node: '>= 0.6'
+    resolution:
+      integrity: sha512-R3C4db6bgQhlIhPU48fUtdVmKnflq+hRdad7IyKhtFj06VPNVdk2RhiYL3UjQIlso8L+YxAtFkobT0VK+S/ybg==
   /mime-types/2.1.18:
     dependencies:
       mime-db: 1.33.0
@@ -883,6 +905,14 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha512-HrkrPaP9vGuWbLK1B1FfgAkbqNjIuy4eHlIYnFi7kamZyLLrGlo2mpcx0bBmNpKqBtYtAfGbodDddIgddSJC2A==
+  /mime-types/2.1.21:
+    dependencies:
+      mime-db: 1.37.0
+    dev: false
+    engines:
+      node: '>= 0.6'
+    resolution:
+      integrity: sha512-3iL6DbwpyLzjR3xHSFNFeb9Nz/M8WDkX33t1GFQnFOllWk8pOrh/LSrB5OXlnlW5P9LH73X6loW/eogc+F5lJg==
   /mime/1.4.1:
     dev: false
     hasBin: true
@@ -1493,13 +1523,9 @@ packages:
     dev: false
     resolution:
       integrity: sha1-tf3AjxKH6hF4Yo5BXiUTK3NkbG0=
-  /slack-events-listener/1.1.0:
-    dev: false
-    resolution:
-      integrity: sha1-iGu5ZXUC2ENF23myAEzIoR5epIA=
   /slack/11.0.1:
     dependencies:
-      tiny-json-http: 7.0.0
+      tiny-json-http: 7.0.2
     dev: false
     resolution:
       integrity: sha512-IrNIVPZtnflzjo0Rpy947SL2ITAHfw1Mm1VVQAPwUk0Yyy+UW2PCwSJGFUbgagFrR66LviHuhOUqpR+ZMspaeQ==
@@ -1616,10 +1642,10 @@ packages:
       node: '>=4.5'
     resolution:
       integrity: sha512-tMkTnh9EdzxyfW+6GK6fCahagXsnYk6kE6S9Gr9pjVdys769+laCTbodXDhPAjzVtEBazRgP0gYqOjnk9dQzLg==
-  /tiny-json-http/7.0.0:
+  /tiny-json-http/7.0.2:
     dev: false
     resolution:
-      integrity: sha512-g3S2RiSmoZDJOMDTX6uj8GjVsiH4s0W0tb1YKYARoP4cosgIb4CB2i7Cdzn9UJqOrI1b1aNK+cgScPx4TwolQg==
+      integrity: sha512-5MsAvlq5tvgCY98Y7iQPmpP5ZqLzESrv/S5AwXWIvHL0Z0zVVAfWku7WC6V4rHJb+judXhd28KBnE5+FLOVYaQ==
   /tough-cookie/2.3.4:
     dependencies:
       punycode: 1.4.1
@@ -1733,6 +1759,5 @@ specifiers:
   passport-oauth2: ^1.4.0
   passport-slack-oauth2: ^1.0.0
   slack: ^11.0.1
-  slack-events-listener: ^1.1.0
   sqlite-sync: ^0.3.6
   sqlite3: ^4.0.2
