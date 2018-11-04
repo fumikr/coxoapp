@@ -153,8 +153,8 @@ select#num_of_days {
    max-width: 150px;
 }
 
-.post-shell { padding: 10px 0px; margin: 1.5em ; text-align: center; border: 1px solid #e5e5e5; }
-.liked-post { background-color: #e5e5e5; }
+.post-shell { padding: 10px 0px; margin: 1.5em ; text-align: center; background: aliceblue; border: 1px solid #e5e5e5; }
+.liked-post { background-color: silver; }
 .shell-menu { padding-top: 10px; }
 .fb_iframe_widget span { background-color: white; }
 
