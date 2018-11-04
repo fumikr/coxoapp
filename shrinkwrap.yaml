@@ -11,7 +11,6 @@ dependencies:
   passport-oauth2: 1.4.0
   passport-slack-oauth2: 1.0.2
   slack: 11.0.1
-  slack-events-listener: 1.1.0
   sqlite-sync: 0.3.8
   sqlite3: 4.0.2
 packages:
@@ -1524,10 +1523,6 @@ packages:
     dev: false
     resolution:
       integrity: sha1-tf3AjxKH6hF4Yo5BXiUTK3NkbG0=
-  /slack-events-listener/1.1.0:
-    dev: false
-    resolution:
-      integrity: sha1-iGu5ZXUC2ENF23myAEzIoR5epIA=
   /slack/11.0.1:
     dependencies:
       tiny-json-http: 7.0.2
@@ -1764,6 +1759,5 @@ specifiers:
   passport-oauth2: ^1.4.0
   passport-slack-oauth2: ^1.0.0
   slack: ^11.0.1
-  slack-events-listener: ^1.1.0
   sqlite-sync: ^0.3.6
   sqlite3: ^4.0.2
