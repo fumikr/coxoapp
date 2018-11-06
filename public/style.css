@@ -102,7 +102,7 @@ div.group {
   padding: 10px;
   width: 265px;
   max-height: 180px;
-  margin-top: 40px;
+  margin: 40px 10px;
 }
 
 div#page-description {

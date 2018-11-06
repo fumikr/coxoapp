@@ -542,14 +542,17 @@ async function asyncFetchHistory(req, res) {
         console.log('Start Fetch History');
         var messages = result.messages;
         // add unregistrated members to database
+        var newUsers2db = [];
         for (var i = 0 ; i < messages.length; i++) {
           var uid = messages[i].user;
           if (!mbdata[uid]) {
             console.log("Error(144): Missing User Data => " + uid);
-            await writeMembers2db(uid);
-            mbdata = await getAllMbDataFromDb();
+            newUsers2db.push(uid);
           };
         };
+        await writeMembers2db(newUsers2db);
+        mbdata = await getAllMbDataFromDb();
+        
         // for each slack messages in the history  
         for (var i = 0 ; i < messages.length; i++) {
           var message = messages[i];  

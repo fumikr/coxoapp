@@ -3,7 +3,7 @@ var currentChannel;
 
 function checkLoginState() {
   FB.getLoginStatus(function(response) {
-    $('#FetchForm').submit(); 
+      $('#FetchForm').submit(); 
   });
 }
 
@@ -49,7 +49,7 @@ $(document).ready(function() {
             }
         var hideBtn = '<!-- HIDE BUTTON --><button id="hide" value="false"></button>';
         var h2Html = '<h2>找到 ' + objLendth + ' Fb Posts (&nbsp;' + nLiked + ' 已讚好 ' + hideBtn + ' )</h2>' ;            
-        var fbLoginBtn = '<!-- FACEBOOK LOGIN BUTTON --><div class="fb-login-button" data-max-rows="1" data-size="small" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="true" data-use-continue-as="true" onlogin="checkLoginState();"></div>';
+        var fbLoginBtn = '<!-- FACEBOOK LOGIN BUTTON --><div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="true" data-use-continue-as="true" onlogin="checkLoginState();"></div>';
             
             $container.html(fbLoginBtn + h2Html + output);
             if (hasLoadedFjs) {
