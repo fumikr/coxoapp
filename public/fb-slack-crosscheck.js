@@ -48,7 +48,7 @@ $(document).ready(function() {
               }
             }
         var hideBtn = '<!-- HIDE BUTTON --><button id="hide" value="false"></button>';
-        var h2Html = '<h2>找到 ' + objLendth + ' Fb Posts (&nbsp;' + nLiked + ' 已讚好 ' + hideBtn + ' )</h2>' ;            
+        var h2Html = '<h2>找到 ' + objLendth + ' Fb Posts (&nbsp;'+ hideBtn + ' '  + nLiked + ' 已讚好 )</h2>' ;            
             
             $container.html(h2Html + output);
             if (hasLoadedFjs) {
@@ -64,6 +64,7 @@ $(document).ready(function() {
               hasLoadedFjs = true;
             }
             showHideBtn();
+            $('#hide').click();
           } else {
             $container.html('<h2>There is a problem</h2><p>' + response.error);
           }
