@@ -11,7 +11,8 @@
 <html lang="zh-hk">
   <head>
     <title>品牌修煉 讚好助手</title>
-      <meta name="description" content="達人專用 - 品牌修煉 讚好助手">
+      <meta name="description" content="品牌修煉助手，包括「讚好助手」、「粉絲分析助手」兩大功能。品牌修煉是達人圈子專為修畢品牌修煉的成員而設的頻道。">
+      <meta property="og:image" itemprop="image" content="http://ia.media-imdb.com/rock.jpg"/>
       <link rel="shortcut icon" type="image/png" href="https://cdn.glitch.com/a3976d00-9d54-4c1e-afee-614347c571f1%2Flike_1.png?1532738313140"/>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -62,10 +63,11 @@
     <!-- END OF HEADER -->
     
     <div id="news-banner">
-      
-          <blockquote class="embedly-card"><h4><a href="https://www.eventbrite.hk/e/vs-nov-5-tickets-51956548435?aff=efbevent&fbclid=IwAR08VDHOKMlhcAlA9RTvJDH7as0q2TgFvyqKVgD9cnsQE_hmRNc7Dprd5XY">超級人脈系列「投資人脈 vs 人脈投資?!」工作坊 (Nov 5)</a></h4><p>Eventbrite - 達人圈子 presents 超級人脈系列「投資人脈 vs 人脈投資?!」工作坊 (Nov 5) - Monday, 5 November 2018 at LCF Workshop. Find event and ticket information.</p></blockquote>
-    <script async src="//cdn.embedly.com/widgets/platform.js" charset="UTF-8"></script>
-      
+      <br>
+        <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fcoxo.hk%2F&tabs&width=320&height=214&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId=1146717015478341" width="320" height="214" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+      <br>
+        <blockquote class="embedly-card"><h4><a href="https://www.eventbrite.hk/e/vs-nov-5-tickets-51956548435?aff=efbevent&fbclid=IwAR08VDHOKMlhcAlA9RTvJDH7as0q2TgFvyqKVgD9cnsQE_hmRNc7Dprd5XY">超級人脈系列「投資人脈 vs 人脈投資?!」工作坊 (Nov 5)</a></h4><p>Eventbrite - 達人圈子 presents 超級人脈系列「投資人脈 vs 人脈投資?!」工作坊 (Nov 5) - Monday, 5 November 2018 at LCF Workshop. Find event and ticket information.</p></blockquote>
+  <script async src="//cdn.embedly.com/widgets/platform.js" charset="UTF-8"></script>
       <!--<iframe src="https://onedrive.live.com/embed?cid=42A0831842844C3A&resid=42A0831842844C3A%21115063&authkey=AMH46wQB1WSRrBE" width="165" height="128" frameborder="0" scrolling="no"></iframe>
       <br><a href="http://go.craftweeks.com/EGkXAJ" target="_blank"><i class="fa fa-cloud-download"></i></a> <a href="http://go.craftweeks.com/EGkXAJ" target="_blank">Open on OneDrive</a>-->
     </div>    
@@ -82,7 +84,12 @@
     
      <!-- RELOAD FORM -->
     
-    <div id="page-description"><p>品牌修煉是達人圈子專為修畢品牌修煉的成員而設的頻道，張貼Facebook「個人」account的posts，互相給Like而設。</p></div>
+    <div id="info-shell">  
+        <div id="page-description"><p>品牌修煉是達人圈子專為修畢品牌修煉的成員而設的頻道，張貼Facebook「個人」account的posts，互相給Like而設。</p></div>
+        <div id="google-trend-shell">
+          <script type="text/javascript" src="https://ssl.gstatic.com/trends_nrtr/1605_RC01/embed_loader.js"></script> <script type="text/javascript"> trends.embed.renderWidget("dailytrends", "", {"geo":"HK","guestPath":"https://trends.google.com:443/trends/embed/"}); </script> 
+        </div>
+    </div>
     
     <div>
       <form id="FetchForm" action="/exec" method="get" >
@@ -96,6 +103,13 @@
       <!-- END RELOAD FORM -->    
     </div>
       
+    <!-- FACEBOOK LOGIN BUTTON -->
+    <div class="button-shell">
+      <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="true" data-use-continue-as="true" onlogin="checkLoginState();"></div>&nbsp;&nbsp;
+
+      <a href="http://bit.ly/2SWaCR9" target="_blank"><button class="coffee-button"><span class="fa fa-coffee"></span>&nbsp;&nbsp;<span>送一杯咖啡給開發員！</span></button></a>
+    </div>
+    
     <!-- OUTPUT AREA -->
     <div id="container"></div>
 

@@ -11,7 +11,7 @@ body {
 }
 
 div#header {
-  font-style: italic;
+  /*font-style: italic;*/
   color: #373fff;
   margin-bottom: 50px;
   padding-bottom: 25px;
@@ -38,6 +38,11 @@ input {
   max-width: 75px;
 }
 
+input {
+  cursor: pointer;
+}
+
+
 /*
 button {
   font-size: 16px;
@@ -48,10 +53,10 @@ button {
   cursor: pointer;
 }*/
 
-/*
+
 button:hover {
-  background-color: yellow;
-}*/
+  cursor: pointer;
+}
 
 button:active {
   box-shadow: none;
@@ -102,11 +107,40 @@ div.group {
   padding: 10px;
   width: 265px;
   max-height: 180px;
-  margin-top: 40px;
+  margin: 40px 10px;
+}
+
+div#info-shell {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
 }
 
 div#page-description {
   max-width: 420px; 
+}
+
+div#google-trend-shell {
+  width: 100%;
+  max-width: 800px;
+  position: relative;
+  left: 70px;
+}
+
+.button-shell {
+  display: inline;
+}
+
+.coffee-button {
+  height: 40px;
+  border-radius: 3px;
+  border: 0px;
+  font-size: 18px;
+  padding: 10px 30px;
+  background: #d9480f;
+}
+.coffee-button span {
+  color: white;
 }
 
 .fb-login-button {
@@ -139,6 +173,10 @@ img {
   margin: 0px 8px 20px 0px;
 }
 
+select:hover {
+  cursor: pointer;
+}
+
 select#group {
   height: 31px;
   max-width: 200px;
@@ -157,6 +195,7 @@ select#num_of_days {
 .liked-post { background-color: silver; }
 .shell-menu { padding-top: 10px; }
 .fb_iframe_widget span { background-color: white; }
+.fb_iframe_widget_fluid { display: inline-block !important; }
 
 #top-right li {
   list-style-type: circle;
@@ -242,12 +281,21 @@ div#content {
   body { margin : 0; }
   div#header h1 { 
     max-width: 75%;
-    text-align-last: right;
+    font-size: 22px;
   }
   #news-banner {
     float: unset;
     top: unset;
     margin: -25px auto 20px auto;
+  }
+  div#google-trend-shell {
+    left: unset;
+  }  
+  .button-shell {
+  display: grid;
+  }
+  .coffee-button {
+    padding: 9px;
   }
   
   table#HistoryTable #col1 {

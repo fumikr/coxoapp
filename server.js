@@ -194,6 +194,15 @@ app.get('/start', function(req, res) {
   };
 });
 
+/* Start of Facebook Click Assistant page */
+app.get('/trends', function(req, res) {
+  logUserPageView(req, res, 'open /start');
+  if (validLogin(req, res)) {
+    logUserPageView(req, res, 'open main.html');
+    res.sendFile(__dirname + '/views/trends.html');
+  };
+});
+
 app.get('/updatebase', function(req, res) {
   logUserPageView(req, res, 'access /updatebase');
   try {
@@ -378,13 +387,13 @@ async function onMarkReaction(req, res) {
   
   if(ts && channel) {
     try {
-      const result = await web.reactions.add({channel: channel, timestamp: ts, name : 'thumbsup'});
+      const result = await web.reactions.add({channel: channel, timestamp: ts, name : 'thumbsup::skin-tone-2'});
       if (result.ok) {
         res.send({ success: true, status: result.acceptedScopes});
       }      
     } catch(err) {
             console.log(err);
-        if (err.data.hasOwnProperty('error')){
+        if (err.data.hasOwnProperty('error') && err.data.error === "already_reacted"){
           console.log(err.data.error);
           res.send({ success: true });
         } else {
@@ -542,14 +551,17 @@ async function asyncFetchHistory(req, res) {
         console.log('Start Fetch History');
         var messages = result.messages;
         // add unregistrated members to database
+        var newUsers2db = [];
         for (var i = 0 ; i < messages.length; i++) {
           var uid = messages[i].user;
           if (!mbdata[uid]) {
             console.log("Error(144): Missing User Data => " + uid);
-            await writeMembers2db(uid);
-            mbdata = await getAllMbDataFromDb();
+            newUsers2db.push(uid);
           };
         };
+        await writeMembers2db(newUsers2db);
+        mbdata = await getAllMbDataFromDb();
+        
         // for each slack messages in the history  
         for (var i = 0 ; i < messages.length; i++) {
           var message = messages[i];  
