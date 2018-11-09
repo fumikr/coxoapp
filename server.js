@@ -194,6 +194,15 @@ app.get('/start', function(req, res) {
   };
 });
 
+/* Start of Facebook Click Assistant page */
+app.get('/trends', function(req, res) {
+  logUserPageView(req, res, 'open /start');
+  if (validLogin(req, res)) {
+    logUserPageView(req, res, 'open main.html');
+    res.sendFile(__dirname + '/views/trends.html');
+  };
+});
+
 app.get('/updatebase', function(req, res) {
   logUserPageView(req, res, 'access /updatebase');
   try {
@@ -378,13 +387,13 @@ async function onMarkReaction(req, res) {
   
   if(ts && channel) {
     try {
-      const result = await web.reactions.add({channel: channel, timestamp: ts, name : 'thumbsup'});
+      const result = await web.reactions.add({channel: channel, timestamp: ts, name : 'thumbsup::skin-tone-2'});
       if (result.ok) {
         res.send({ success: true, status: result.acceptedScopes});
       }      
     } catch(err) {
             console.log(err);
-        if (err.data.hasOwnProperty('error')){
+        if (err.data.hasOwnProperty('error') && err.data.error === "already_reacted"){
           console.log(err.data.error);
           res.send({ success: true });
         } else {
