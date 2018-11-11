@@ -7,7 +7,16 @@ function checkLoginState() {
   });
 }
 
-$(document).ready(function() {  
+$(document).ready(function() {
+  
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = 'https://connect.facebook.net/zh_HK/sdk.js#xfbml=1&version=v3.1&appId=1146717015478341&autoLogAppEvents=1';
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    hasLoadedFjs = true;
 
     var dFormFetchData = $('#FetchForm');
   
@@ -19,12 +28,10 @@ $(document).ready(function() {
             var data = dThisForm.serialize();
       
       data += '&groupname=' + $("select#group option:selected").text();
-      console.log(data);
-      
       getFetch(action, data);
     });
                       
-    function getFetch(action, data) {      
+    function getFetch(action, data) {
       var $container = $('#container');      
       $.ajax({
         url: action,
@@ -35,38 +42,29 @@ $(document).ready(function() {
           alert('error: ' + xhr);
         },
         success: function (response) {
-          if(response.success) {  
+          if(response.success) {
             currentChannel = response.channel;
-            var output ='';
+            var output ='<div class="content-container">';
             var nLiked = 0;
             var objLendth = response.obj.length;
             for (var i= 1;  i <= objLendth; i++) {
               var obj = response.obj[objLendth - i];
-              output += embedFB_ui(obj.ind, obj.url, obj.ts, obj.isliked);
+              output += embedFB_ui(obj.ind, obj.url, obj.ts, obj.isliked, obj.skin_tone);
               if (obj.isliked) { 
                 nLiked++;
               }
             }
-        var hideBtn = '<!-- HIDE BUTTON --><button id="hide" value="false"></button>';
-        var h2Html = '<h2>找到 ' + objLendth + ' Fb Posts (&nbsp;'+ hideBtn + ' '  + nLiked + ' 已讚好 )</h2>' ;            
+            output += '</div>'
+            var hideBtn = '<!-- HIDE BUTTON --><button id="hide" value="false"></button>';
+            var h2Html = '<h2>找到 ' + objLendth + ' Fb Posts (&nbsp;'+ hideBtn + ' '  + nLiked + ' 已讚好 )</h2>' ;            
             
             $container.html(h2Html + output);
-            if (hasLoadedFjs) {
-              FB.XFBML.parse();
-            } else {
-              (function(d, s, id) {
-              var js, fjs = d.getElementsByTagName(s)[0];
-              if (d.getElementById(id)) return;
-              js = d.createElement(s); js.id = id;
-              js.src = 'https://connect.facebook.net/zh_HK/sdk.js#xfbml=1&version=v3.1&appId=1146717015478341&autoLogAppEvents=1';
-              fjs.parentNode.insertBefore(js, fjs);
-              }(document, 'script', 'facebook-jssdk'));
-              hasLoadedFjs = true;
-            }
+            FB.XFBML.parse(document.getElementById('container'));
             showHideBtn();
             $('#hide').click();
           } else {
-            $container.html('<h2>There is a problem</h2><p>' + response.error);
+            console.log(response.error);
+            $container.html('<h2>發生了一些問題！</h2><p>' + JSON.stringify(response.error));
           }
         }
       });
@@ -74,7 +72,7 @@ $(document).ready(function() {
     setTimeout(function() { 
       checkGroups();
       //dFormFetchData.submit(); 
-    }, 0);
+    }, 3000);
 });
 
 
@@ -89,19 +87,23 @@ function checkGroups() {
         },
         success: function (response) {
           if(response.success) {
-            var groupSelect = $('select#group');
-            $.each(response.channels, function(i, val){
-              groupSelect.append(
-                $('<option></option>').val(val.id).html(val.name)
-              );
-            });
-            $('#FetchForm').submit(); 
+            if (response.channels.length > 0) {
+              var groupSelect = $('select#group');
+              $.each(response.channels, function(i, val){
+                groupSelect.append(
+                  $('<option></option>').val(val.id).html(val.name)
+                );
+              });
+              $('#FetchForm').submit();
+            } else {
+              $('#container').html('<h2>發生了一些問題！</h2>' + '<h3>沒有Slack的存取權限，無法找到任何品牌修煉頻道。</h3>');
+            }
           };
         }});
 }
 
 // Formatting HTML output of Facbook embeeded posts
-function embedFB_ui(i, url, ts, isliked) {  
+function embedFB_ui(i, url, ts, isliked, skin_tone) {  
   var htmltxt = [];
   
   const regex_fbid = /fbid=([0-9]+)/;
@@ -125,14 +127,17 @@ function embedFB_ui(i, url, ts, isliked) {
     if (screen.width < dataWidth) {
       dataWidth = screen.width;
     };
-    //htmltxt += '<iframe class="fb-iframe" id="fb-iframe_' + i + '" src="https://www.facebook.com/plugins/post.php?href='+ encodedUrl + '&width=500&appId=' + process.env.FACEBOOK_APP_ID + '" width="500" height="500" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>';
     htmltxt += '<div class="fb-post" data-href="' + url +  '" data-width="' + dataWidth + '" data-show-text="true"></div>'
-    //htmltxt += '<button class="enlarge" value="fb-iframe_' + i + '" type="submit">+</button>';
-
+    
+    if (skin_tone){
+       var emoji = 'thumbsup';
+     } else {
+       var emoji = 'thumbsup::skin-tone-2'; 
+     };
     // Display URL as caption
     htmltxt += '<div class="shell-menu"><a href="' + url + '" target="_blank">在Facebook開啟</a>&nbsp;&nbsp;&nbsp;';
     // Display a correspending button
-    htmltxt += '<button class="marks" id="markbtn' + i + '" type="submit" value="' + ts + '">標記到<i class="fa fa-slack"></i>slack</button>';
+    htmltxt += '<button class="marks" id="markbtn' + i + '" type="submit" name="' + emoji + '" value="' + ts + '">標記到<i class="fa fa-slack"></i>slack</button>';
     if (isliked){ htmltxt += ' <i class="fa fa-check-circle" style="color:green"></i>'; }
     htmltxt += '</div></div>';
     return htmltxt;
@@ -143,10 +148,11 @@ function embedFB_ui(i, url, ts, isliked) {
 $(document).on("click", ".marks", function(e){  
    var btnId = $(this).attr('id');
    var ts = $(this).val();
+   var emoji = $(this).attr('name');
    $.ajax({
       url: '/update_reactions',
       type: 'post',
-      data: { ts: ts, channel: currentChannel},
+      data: { ts: ts, channel: currentChannel, name: emoji },
       dataType: 'json',
       error: function (xhr) {
         alert('error: ' + xhr);
