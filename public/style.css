@@ -14,13 +14,22 @@ div#header {
   display: flex;
   color: #373fff;
   margin-top: 15px;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
   padding-bottom: 15px;
   border-bottom: 1px solid lightgrey;
 }
 
 div#header h1 {
   margin: 16px;
+}
+
+div#header h1 span::before {
+  content: ' - ';
+}
+
+div#masthead {
+  display: flex;
+  justify-content: space-between;
 }
 
 .bold {
@@ -141,7 +150,7 @@ div#google-trend-shell {
   border-radius: 3px;
   border: 0px;
   font-size: 18px;
-  padding: 10px 30px;
+  padding: 10px 20px;
   background: #d9480f;
 }
 .coffee-button span {
@@ -198,31 +207,38 @@ select#num_of_days {
 
 .post-shell { padding: 10px 0px; margin: 1.5em ; text-align: center; background: aliceblue; border: 1px solid #e5e5e5; }
 .liked-post { background-color: silver; }
-.shell-menu { padding-top: 10px; }
+.shell-menu { padding-top: 1rem; }
 .fb_iframe_widget span { background-color: white; }
 .fb_iframe_widget_fluid { display: inline-block !important; }
 
 #top-right {
   position: absolute;
   right: 32px; 
+  text-align:right;
 }
 
 #top-right li {
   list-style-type: circle;
-  padding-left : 10px;
   font-style: normal;
+  line-height: 14px;
+  margin-right: 0.5rem;
 }
 
 #top-right a {
   text-decoration : none;
+  margin-left: -0.5rem;
 }
 
-#logoutbtn {
-  padding-bottom : 1em;
-  padding-left : 1.5em;
+#home-button {
+  padding-bottom: 0.8rem;
 }
 
-#breadcrumb a {
+._top {
+  text-align: right;
+  margin-right: 12px;
+}
+
+.breadcrumb a {
   text-decoration : none;
 }
 
@@ -230,7 +246,7 @@ select#num_of_days {
   float: right;
   top: -45px;
   padding: 10px;
-  margin: 20px 10px -30px 10px;
+  margin: 40px 10px -30px 10px;
   position:  relative;
   border: 4px solid #40d3ff;
   border-radius:  15px;
@@ -241,10 +257,26 @@ select#num_of_days {
   width: 33%;
 }
 
-div#content {
-   max-width: 960px; 
+div.content-container {
+  max-width: 960px;
+  margin: 0 auto;
 }
 
+div.content {
+  max-width: 960px; 
+  margin: 40px auto 20px;
+  padding: 20px 50px 50px;
+  border: 1px solid #cce;
+  background: aliceblue;
+}
+
+div.content h3 {
+  margin-top: 3rem;
+}
+
+div.content .sub {
+  padding-bottom: 1rem;
+}
 
 /* Tooltip container */
 .tooltip {
@@ -289,7 +321,6 @@ div#content {
 @media screen and (max-width:1350px) {  
   div#google-trend-shell {
     width: 90%;
-    min-width: 412px;
     margin: 0;
   }
 }
@@ -303,7 +334,7 @@ div#content {
     width: 100%;
     float: unset;
     top: unset;
-    margin: -25px 5px 20px;
+    margin: -5px 5px 20px;
   }
 }
 
@@ -312,12 +343,15 @@ div#content {
   .post-shell { margin: 1.5em 0 ; padding: 15px 10px; }
   .fb_iframe_widget { margin: 0 ; }
   body { margin : 0; }
+  div#header {
+    margin-left: 5px;
+  }
   div#header h1 { 
     font-size: 24px;
-    margin: 8px;
+    margin-top: 2px;
   }
   div#header h1 span::before { 
-    content: '\A';
+    content: '\A  - ';
     white-space: pre;
   }
   #top-right {
@@ -347,7 +381,14 @@ div#content {
     width: 100%;
     float: unset;
     top: unset;
-    margin: -25px auto 20px auto;
+    margin: -5px auto 20px auto;
+  }  
+  div.content {
+    margin: 35px auto 15px;
+    padding: 10px 0 25px;
+  }
+  div#google-trend-shell {
+    width: 100%;
   }
 }
 

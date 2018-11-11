@@ -84,7 +84,7 @@ function getFetch(action, data) {
         };
         $("#HistoryTable").tablesorter({sortList: [[0,0]]}); 
       } else {
-        $container.html('<h2>There is a problem</h2><p>');
+        $container.html('<h2>發生了一些問題！請等幾分鐘之後再嘗試。</h2><p>');
       };
     }
   });

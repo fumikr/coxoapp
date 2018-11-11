@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="zh-hk">
   <head>
-    <title>達人專用 - 品牌修煉助手</title>
+    <title>COXOAPP 版本記錄</title>
           <meta name="description" content="達人專用 - 品牌修煉助手">
           <link rel="shortcut icon" type="image/png" href="https://cdn.glitch.com/a3976d00-9d54-4c1e-afee-614347c571f1%2Flike_1.png?1532738313140"/>
           <meta charset="utf-8">
@@ -32,183 +32,159 @@
     
     <!-- HEADER -->
     <div id="header">          
-      <div id="top-right" style="float:right;">
+      <a name="top"></a><a href="/" id="icon">
+        <img src="https://cdn.glitch.com/a3976d00-9d54-4c1e-afee-614347c571f1%2Flike_1.png?1532738313140" height="64"></a>
+      <h1>達人專用<span>品牌修煉助手</span></h1>
+      <div id="top-right">
+        <div id="home-button">
+          <a href="/" class="button">主頁</a>
+        </div>
         <ui>
-          <li><a href="/">主頁</a></li>
-          <li><a href="/how-to-use">使用說明</a></li>
+          <li><a href="/how-to-use">說明</a></li>
         </ui>
       </div>
-      <h1><a name="top"></a><a href="/" id="icon">
-        <img src="https://cdn.glitch.com/a3976d00-9d54-4c1e-afee-614347c571f1%2Flike_1.png?1532738313140" height="64"></a>
-        達人專用 - 品牌修煉助手
-      </h1>
     </div>
     <!-- END HEADER -->
 
     <!-- START NAVIGATION -->
     <div id="masthead">
-      <h1 style="float: left; margin-top: 0;">Documentation</h1>
-      <p style="float: right;">Author:<a href="https://craftweeks.com">Chris K. Fung</a></p>
+      <div class="breadcrumb">
+          <a href="/">COXOAPP</a> &#8250; 版本記錄
+      </div>
+      <div class="breadcrumb">文件: <a href="http://chrisfungky.tumblr.com/" target="_blank">Chris Fung</a></div>
     </div>
     <!-- END NAVIGATION -->
-
-
-    <!-- START BREADCRUMB -->
-    <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
-      <tr>
-        <td id="breadcrumb">
-          <a href="/">coxoapp</a> &nbsp;&#8250;&nbsp; Documentation
-        </td>
-      </tr>
-    </table>
-    <!-- END BREADCRUMB -->
 
     <br clear="all" />
 
     <!-- START CONTENT -->
-    <div id="content">
-      <h1>Roadmap</h1>
-      <ui>
-        <li>Support additional Slack emoji</li>
-        <li>Usage Statistics</li>
-        <li>Event News</li>
-        <li>Member Profiles</li>
-      </ui>
-        
-      <br clear="all" />
+    <div class="content-container"> 
+       <h1>COXOAPP 版本記錄</h1>
+       <div class="breadcrumb">
+         <ol>
+           <li><a href="#roadmap">發展路線圖</a></li>
+           <li><a href="#versions">更新日誌</a></li>
+         </ol>
+       </div>
+
+       <a name="roadmap"></a>
+       <div class="content">          
+          <h2>發展路線圖</h2>
+          <ui>       
+            <li>支持額外的Slack表情符號</li>
+            <li>用量統計分析</li>
+            <li>提供活動資訊</li>
+            <li>個人化檔案</li>
+          </ui>
+       </div>
       
-      <h1>Change Log 版本記錄</h1>
-    
-      <!--
-      <h2>Version 1.6.0</h2>
-      <p>Release Date: 26/10/2010</p>
+       <div class="_top"><a href="#top">頁面頂部</a></div>
 
-      <ul>
-        <li>Comes with documentation, which is what you are looking at, so you probably know that.</li>
-        <li>Fixed some random bugs with locating layouts, theme partials, etc.</li>
-      </ul>
+       <a name="versions"></a>
+       <div class="content">    
+          <h2>更新日誌</h2>    
 
-      <h2>Version 1.5.0</h2>
-      <p>Release Date: 28/09/2010</p>
+          <h3>Version 2.3.2 (2018/10/29)</h3>
 
-      <ul>
-        <li>Added <a href="modules.html">mobile support</a>.</li>
-      </ul>
-      -->
-      
-      <h2>Version 2.3.2</h2>
-      <p>Release Date: 29/10/2018</p>
+          <ul>
+            <li>Renamed to CoxoApp.</li>
+            <li>Simpified login procedure.</li>
+            <li>Fixed the login bug for new users.</li>
+            <li>Upgraded to support multiple channels.</li>
+            <li>Fixed database updating error for Fans Analytics in History page.</li>
+          </ul>
 
-      <ul>
-        <li>Renamed to CoxoApp.</li>
-        <li>Fixed the login bug for new users.</li>
-        <li>Upgraded to support multiple channels.</li>
-        <li>Fixed database updating error for Fans Analytics in History page.</li>
-      </ul>
-      
-      <h2>Version 2.2.1</h2>
-      <p>Release Date: 28/10/2018</p>
+          <div class="_top"><a href="#top">頁面頂部</a></div>
 
-      <ul>
-        <li>Simpified login procedure.</li>
-      </ul>
-      
-      <h2>Version 2.1.3</h2>
-      <p>Release Date: 06/10/2018</p>
+          <h3>Version 2.1.3 (2018/10/06)</h3>
 
-      <ul>
-        <li>Fixed database updating issues for Fans Analytics in History page.</li>
-      </ul>
-      
-      <h2>Version 2.1.2</h2>
-      <p>Release Date: 22/08/2018</p>
+          <ul>
+            <li>Fixed database updating issues for Fans Analytics in History page.</li>
+          </ul>
 
-      <ul>
-        <li>Fixed the bug of hide button after reloading facebook posts.</li>
-        <li>Added Awesome Icons.</li>
-        <li>Upgraded slack npm package in backend.</li>
-      </ul>
-      
-      <h2>Version 2.1.1</h2>
-      <p>Release Date: 11/08/2018</p>
+          <h3>Version 2.1.2 (2018/08/22)</h3>
 
-      <ul>
-        <li>Enhanced privary protection.</li>
-        <li>Upgraded user database.</li>
-        <li>Opitimized algorithms.</li>
-      </ul>
-      
-      <h2>Version 2.1.0</h2>
-      <p>Release Date: 07/08/2018</p>
+          <ul>
+            <li>Fixed the bug of hide button after reloading facebook posts.</li>
+            <li>Added Awesome Icons.</li>
+            <li>Upgraded slack npm package in backend.</li>
+          </ul>
 
-      <ul>
-        <li>Added number of reactions and Give/Take Rate (GTR) to Fans Analytics in History page.</li>
-      </ul>
-      
-      <h2>Version 2.0.0</h2>
-      <p>Release Date: 06/08/2018</p>
+          <h3>Version 2.1.1 (2018/08/11)</h3>
 
-      <ul>
-        <li>Added Fans Analytics in History page.</li>
-        <li>Added database server.</li>
-        <li>Updated page titles.</li>
-        <li>Increase 中文化.</li>
-      </ul>
-      
-      <h2>Version 1.1.2</h2>
-      <p>Release Date: 01/08/2018</p>
+          <ul>
+            <li>Enhanced privary protection.</li>
+            <li>Upgraded user database.</li>
+            <li>Opitimized algorithms.</li>
+          </ul>
 
-      <ul>
-        <li>Fixed Slack login error happened on non-developer accounts. Updated callback function.</li>
-        <li>Added show error message to front-end.</li>
-        <li>Updated How to Use page. Added 常見問題.</li>
-      </ul>
-      
-      <h2>Version 1.1.1</h2>
-      <p>Release Date: 30/07/2018</p>
+          <h3>Version 2.1.0 (2018/08/07)</h3>
 
-      <ul>
-        <li>Fixed bugs in login and cookie handling process.</li>
-        <li>Updated How to Use page.</li>
-      </ul>
-      
+          <ul>
+            <li>Added number of reactions and Give/Take Rate (GTR) to Fans Analytics in History page.</li>
+          </ul>
 
-      <h2>Version 1.1.0</h2>
-      <p>Release Date: 28/07/2018</p>
+          <h3>Version 2.0.0 (2018/08/06)</h3>
 
-      <ul>
-        <li>Fixed mobile view. Added responsive layout.</li>
-        <li>Fixed logout process.</li>
-        <li>Fixed CAN'T Display Facebook Posts after request new data.</li>
-        <li>Improved fetch response time by moving HTML formating from server to client side.</li>
-        <li>Updated rending of Facebook embedded posts with responsive design.</li>
-        <li>Updated security check.</li>
-        <li>Updated cookie handling.</li>
-        <li>Changed background color of liked posts.</li>
-        <li>Changed the text of Facebook post links from post URL to "Open in Facebook".</li>
-        <li>Changed to display the numbers of posts found and liked after request data.</li>
-        <li>Added Change Log page.</li>
-        <li>Added How to Use page.</li>
-      </ul>
-      
+          <ul>
+            <li>Added Fans Analytics in History page.</li>
+            <li>Added database server.</li>
+            <li>Updated page titles.</li>
+            <li>Increase 中文化.</li>
+          </ul>
 
-      <h2>Version 1.0.0</h2>
-      <p>Release Date: 27/07/2018</p>
+          <div class="_top"><a href="#top">頁面頂部</a></div>
 
-      <ul>
-        <li>Improved rending of Facebook embedded posts (Fix post height). Changed from using Iframe method to native JavaScript SDK.</li>
-        <li>Transplanted the web application from Google Apps Script to Glitch platform.</li>
-        <li>Added Facebook Login button.</li>
-      </ul>
+          <h3>Version 1.1.2 (2018/08/01)</h3>
 
+          <ul>
+            <li>Fixed Slack login error happened on non-developer accounts. Updated callback function.</li>
+            <li>Added show error message to front-end.</li>
+            <li>Updated How to Use page. Added 常見問題.</li>
+          </ul>
+
+          <h3>Version 1.1.1 (2018/07/30)</h3>
+
+          <ul>
+            <li>Fixed bugs in login and cookie handling process.</li>
+            <li>Updated How to Use page.</li>
+          </ul>
+
+
+          <h3>Version 1.1.0 (2018/07/28)</h3>
+
+          <ul>
+            <li>Fixed mobile view. Added responsive layout.</li>
+            <li>Fixed logout process.</li>
+            <li>Fixed CAN'T Display Facebook Posts after request new data.</li>
+            <li>Improved fetch response time by moving HTML formating from server to client side.</li>
+            <li>Updated rending of Facebook embedded posts with responsive design.</li>
+            <li>Updated security check.</li>
+            <li>Updated cookie handling.</li>
+            <li>Changed background color of liked posts.</li>
+            <li>Changed the text of Facebook post links from post URL to "Open in Facebook".</li>
+            <li>Changed to display the numbers of posts found and liked after request data.</li>
+            <li>Added Change Log page.</li>
+            <li>Added How to Use page.</li>
+          </ul>
+
+
+          <h3>Version 1.0.0 (2018/07/27)</h3>
+
+          <ul>
+            <li>Improved rending of Facebook embedded posts (Fix post height). Changed from using Iframe method to native JavaScript SDK.</li>
+            <li>Transplanted the web application from Google Apps Script to Glitch platform.</li>
+            <li>Added Facebook Login button.</li>
+          </ul>
+
+          <div class="_top"><a href="#top">頁面頂部</a></div>
+        </div>
     </div>
-    
-    <p><a href="#top">Top of Page</a></p>
     <!-- END CONTENT -->
 
     <!-- FOOTER -->
-    <footer>
-      <p><a href="https://craftweeks.com">Craftweeks</a> &nbsp;&middot;&nbsp; Copyright &#169; 2018 <a href="https://github.com/chriskyfung">Chris K. Fung</a> &nbsp;&middot;&nbsp; <a href="http://www.coxo.hk/">達人圈子</a></p>
+    <footer>       
+      <p>Copyright &#169; 2018 <a href="https://github.com/chriskyfung">Chris K. Fung</a> &nbsp;&middot;&nbsp; <a href="http://www.coxo.hk/">達人圈子</a></p>
       <p>Made with <a href="https://glitch.com">Glitch</a>!</p>
     </footer>
 
