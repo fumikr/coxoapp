@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="zh-hk">
   <head>
-    <title>達人專用 - 品牌修煉助手</title>
+    <title>COXOAPP 說明</title>
      <meta name="description" content="品牌修煉助手，包括「讚好助手」、「粉絲分析助手」兩大功能。品牌修煉是達人圈子專為修畢品牌修煉的成員而設的頻道。">
     <meta property="og:image" itemprop="image" content="http://ia.media-imdb.com/rock.jpg"/>
     <link rel="shortcut icon" type="image/png" href="https://cdn.glitch.com/a3976d00-9d54-4c1e-afee-614347c571f1%2Flike_1.png?1532738313140"/>
@@ -32,140 +32,180 @@
     
     <!-- HEADER -->
     <div id="header">          
-      <div id="top-right" style="float:right;">
+      <a name="top"></a><a href="/" id="icon">
+        <img src="https://cdn.glitch.com/a3976d00-9d54-4c1e-afee-614347c571f1%2Flike_1.png?1532738313140" height="64"></a>
+      <h1>達人專用<span>品牌修煉助手</span></h1>
+      <div id="top-right">
+        <div id="home-button">
+          <a href="/" class="button">主頁</a>
+        </div>
         <ui>
-          <li><a href="/">主頁</a></li>
-          <li><a href="/changelog" id="changelog">版本記錄</a></li>
+          <li><a href="/changelog" id="changelog">版本</a></li>
         </ui>
       </div>
-      <h1><a name="top"></a><a href="/" id="icon">
-        <img src="https://cdn.glitch.com/a3976d00-9d54-4c1e-afee-614347c571f1%2Flike_1.png?1532738313140" height="64"></a>
-        達人專用 - 品牌修煉助手
-      </h1>
     </div>
     <!-- END HEADER -->
-
+    
+    
     <!-- START NAVIGATION -->
     <div id="masthead">
-      <h1 style="float: left; margin-top: 0;">Documentation</h1>
-      <p style="float: right;">Author:<a href="https://craftweeks.com">Chris K. Fung</a></p>
+      <div class="breadcrumb">
+          <a href="/">COXOAPP</a> &#8250; 說明文件
+      </div>
+      <div class="breadcrumb">文件: <a href="http://chrisfungky.tumblr.com/" target="_blank">Chris Fung</a></div>
     </div>
     <!-- END NAVIGATION -->
-
-
-    <!-- START BREADCRUMB -->
-    <table cellpadding="0" cellspacing="0" border="0" style="width:100%">
-      <tr>
-        <td id="breadcrumb">
-          <a href="/">coxoapp</a> &nbsp;&#8250;&nbsp; Documentation
-        </td>
-      </tr>
-    </table>
-    <!-- END BREADCRUMB -->
 
     <br clear="all" />
 
 
     <!-- START CONTENT -->
-    <div id="content">
-      <h2>應用程式概念</h2>
+    <div class="content-container">
+      
+       <h1>COXOAPP 說明文件</h1>
+       <div class="breadcrumb">
+         <ol>
+           <li><a href="#concepts">應用程式概念</a></li>
+           <li><a href="#new-features">新功能</a></li>
+           <li><a href="#instructions">使用說明</a>             
+             <ul>
+               <li><a href="#sign-in">登入並獲取Slack授權</a></li>
+               <li><a href="#fetch-fb-posts">抓取「品牌修煉」分享的Facebook貼文</a></li>
+               <li><a href="#show-n-hide">隱藏/顯示已讚好(灰色背景)的貼文</a></li>
+               <li><a href="#click-like-on-fb">在Facebook嵌入式貼文「讚好」</a></li>
+               <li><a href="#mark-on-slack">在Slack回應「讚好」</a></li>
+             </ul>
+             </li>
+           <li><a href="#faq">常見問題</a></li>
+         </ol>
+       </div>
+      
+      <a name="concepts"></a>
+      <div class="content">        
+        <h2>應用程式概念</h2>
         <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/dM486I6DnG4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-      <p>
-        一站式管理達人的Facebook及Slack個人品牌修煉頻道，促進交換社交貨幣。
-      </p>
-      <p>
-        方便達人檢查有沒有漏看分享到品牌修煉的Facebook帖子，覆核是否有依照品牌修煉的規則回Slack頻道Mark Liked。為達人提供發佈頻率與粉絲回應的統計及分析數據。
-      </p>
+        <p>一站式管理達人的Facebook及Slack個人品牌修煉頻道，促進交換社交貨幣。</p>
+        <p>方便達人檢查有沒有漏看分享到品牌修煉的Facebook帖子，覆核是否有依照品牌修煉的規則回Slack頻道Mark Liked。為達人提供發佈頻率與粉絲回應的統計及分析數據。</p>
+      </div>
       
-      <br clear="all" />
+      <div class="_top"><a href="#top">頁面頂部</a></div>
       
-      <h2>新功能 - 粉絲分析助手</h2>
-      <p>登入後，從Menu Bar按「粉絲分析助手」的連結，就會進入如下圖的網頁。預設顯示為「過去7天」的統計記錄。你可以在表格的右上方更變日期範圍選項，然後按「取得分析」向伺服器查詢更多天數的數據記錄。</p>
-      <p>可供選擇的日期範圍選項：<br>
-        <ui><li>過去30天</li><li>過去14天</li><li>過天7天</li><li>過去1天</li></ui>
-      </p>
-      <p><img class="shadow" src="https://cdn.glitch.com/c5cf6c57-1bac-4684-bf70-929ce8517fcc%2Fez-analytics.png?1533538067660"></p>
+      <a name="new-features"></a>
+      <div class="content">
+        <h2>新功能 - 粉絲分析助手</h2>
+        <p>登入後，從Menu Bar按「粉絲分析助手」的連結，就會進入如下圖的網頁。預設顯示為「過去7天」的統計記錄。你可以在表格的右上方更變日期範圍選項，然後按「取得分析」向伺服器查詢更多天數的數據記錄。</p>
+        <p>可供選擇的日期範圍選項：</p>
+        <ui style="text-indent:20px;"><li>過去30天</li><li>過去14天</li><li>過天7天</li><li>過去1天</li>
+        <img class="shadow" src="https://cdn.glitch.com/c5cf6c57-1bac-4684-bf70-929ce8517fcc%2Fez-analytics.png?1533538067660"></ui>
+      </div>
       
-      <br clear="all" />
+      <div class="_top"><a href="#top">頁面頂部</a></div>
       
-      <h2>使用說明</h2>
-      
-      <h3>登入Facebook用戶及獲取Slack授權</h3>
-      <ol>
-          <li>按下「Facebook登入」按鈕，確認Facebook用戶名稱。</li>
-            <img class="shadow" src="https://cdn.glitch.com/a3976d00-9d54-4c1e-afee-614347c571f1%2Flogin-steps-12-small.png?1532942956049">
-          <li>按下「Add to Slack」按鈕，取得Slack權根。請參考下方之影片示範。</li>
-            <img class="shadow" src="https://cdn.glitch.com/a3976d00-9d54-4c1e-afee-614347c571f1%2Flogin-steps-45-small.png?1532942955959 ">
-          <li>當程式確認Facebook及Slack的受權後，會自動轉入應用程式的主畫面。</li>
-          <img class="shadow" src="https://cdn.glitch.com/a3976d00-9d54-4c1e-afee-614347c571f1%2Flogin-steps-56-small.png?1532942955646">
-          <iframe width="315" height="560" src="https://www.youtube-nocookie.com/embed/8nhfwMX1zgE" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-      </ol>
-            
-      <h3>抓取「品牌修煉」分享的Facebook貼文</h3>
-      <ol>
-        <li>進入主畫面後，應用程式會自動抓取Slack之中的「品牌修煉」頻道內訊息記錄，預設為最新15個記載。
-          <br>然後，顯示搜索到的Facebook貼文。</li>
-        <li>可以修改輸入方塊之中的數字，然後按「Get Data」按鈕，抓取更多記錄，設定上限為100。</li>
-        <li>取得Slack資料後，會顯示搜索到的Facebook貼文總數，以及已經在Slack回應了的數目。</li>
-        <img class="shadow" src="https://cdn.glitch.com/a3976d00-9d54-4c1e-afee-614347c571f1%2Fez-header.png?1532933096357"> 
-        <li>顯示<b>灰色背景</b>的貼文，表示該篇貼文在Slack上已留了回應。在嵌入式貼文下方之「Mark on Slack」按鈕旁亦會顯示綠色的 <i class="fa fa-check-circle" style="color:green"></i> 號。</li>
-        <img class="shadow" src="https://cdn.glitch.com/a3976d00-9d54-4c1e-afee-614347c571f1%2Ffb-post-liked.png?1532935067940">
-      </ol>
-      
-      <h3>隱藏/顯示有灰色背景的貼文</h3>
-      <ol>
-        <li>按下「Hide Liked」按鈕，應用程式就會把有灰色背景的嵌入式貼文隱藏起來。</li>
-        <li>按下切換成「Show Liked」的按鈕，應用程式就會把已隱藏起來的嵌入式貼文再次顯示出來。</li>
-      </ol>
-      
-      <h3>在Facebook嵌入式貼文「讚好」</h3>
+      <a name="instructions"></a>
+      <div class="content">
+        <h2>使用說明</h2>
         
-      <ol>
-        <li>按下Facebook嵌入式貼文的「讚好」按鈕。</li>
-        <li>如果看到「確認」按鈕，請再次按下，然後在彈出的視窗確認「讚好」。
-          <p>
-            <img class="shadow" src="https://cdn.glitch.com/a3976d00-9d54-4c1e-afee-614347c571f1%2Ffb-confirm.png?1532933656061">
-            <br>(<a href="#about_facebook_confirm_message">為什麼在點擊嵌入式Facebook貼文的「讚好」按鈕後會看到「確認」按鈕？</a>)
-          </p>
-        </li>
-      </ol>
-      
-      <h3>在Slack回應「讚好」</h3>
-      <ol>
-        <li>按嵌入式貼文下方的「Mark on Slack」按鈕。</li>
-        <li>如果成功在「品牌修煉」頻道的對應記錄上留下<i class="fa fa-thumbs-up" style="color:#ffa700"></i>回應，「Mark on Slack」按鈕旁就會出現綠色的 <i class="fa fa-check-circle" style="color:green"></i> 號。
-          <br>如果失敗，則會出現紅色的 <i class="fa fa-times-circle" style="color:red"></i>。</li>
-        <img class="shadow" src="https://cdn.glitch.com/a3976d00-9d54-4c1e-afee-614347c571f1%2Fez-mark.png?1532933656175">
-      </ol>
-      
-      
-      <h2>常見問題</h2>
-      <ol>
-        <li><a name="about_facebook_confirm_message"></a><b>為什麼在點擊嵌入式Facebook貼文的「讚好」按鈕後會看到「確認」按鈕？</b></li>
-        <ul>
-          <li><a href="https://developers.facebook.com/docs/plugins/faqs/#faq_251162528583504" target="_blank">Facebok 常見問題</a> - 當有特定用戶人數分別確認讚好之後，該確認步驟將不再出現。</li>
-        </ul>
-        <li><b>出現錯誤信息</b></li>
-        <ul>
-          <li>如果沒有該Channel的讀取權限，則會顯示如下圖的錯誤信息。</li>
-          <img class="shadow" src="https://cdn.glitch.com/a3976d00-9d54-4c1e-afee-614347c571f1%2Ferror_msg_no_access_right.png?1533064787026">
-        </ul>
-        <li><b>為什麼不設計成自動同步Facebook與Slack之間的「讚好」？</b></li>
-        <ul>
-          <li>基於2018年2月份的Facebook隱私政策修定，現在已經不再提供API方法去傳取「讚好」貼文的用戶資料。
-            <br>更無法經由其API接點，對用戶貼文添加「讚好」反應。詳細請參考：<a href="https://developers.facebook.com/docs/graph-api/reference/v3.1/object/reactions" target="_blank">Facebook Graph API 說明</a> (英文)。</li>
-          <img class="shadow" src="https://cdn.glitch.com/a3976d00-9d54-4c1e-afee-614347c571f1%2Ffacebook-api-privacy-concerns.png?1533192579883">
-        </ul>
-      </ol>
+        <div class="sub">
+          <a name="sign-in"></a>
+          <h3>登入並獲取Slack授權</h3>
+          <ol>
+              <li>按下「Add to Slack」按鈕，取得Slack權根。請參考下方之影片示範。</li>
+                <img class="shadow" src="https://cdn.glitch.com/a3976d00-9d54-4c1e-afee-614347c571f1%2Flogin-steps-45-small.png?1532942955959 ">
+              <li>當程式確認Facebook及Slack的受權後，會自動轉入應用程式的主畫面。</li>
+              <img class="shadow" src="https://cdn.glitch.com/a3976d00-9d54-4c1e-afee-614347c571f1%2Flogin-steps-56-small.png?1532942955646">
+              <iframe width="315" height="560" src="https://www.youtube-nocookie.com/embed/8nhfwMX1zgE" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          </ol>
+        </div>
+        
+        <div class="_top"><a href="#top">頁面頂部</a></div>
+        
+        <div class="sub">
+          <a name="fetch-fb-posts"></a>
+          <h3>抓取「品牌修煉」分享的Facebook貼文</h3>
+          <ol>
+            <li>進入主畫面後，應用程式會自動抓取Slack之中的「品牌修煉」頻道內訊息記錄，預設為最新15個記載。
+              <br>然後，顯示搜索到的Facebook貼文。</li>
+            <li>可以修改輸入方塊之中的數字，然後按「Get Data」按鈕，抓取更多記錄，設定上限為100。</li>
+            <li>取得Slack資料後，會顯示搜索到的Facebook貼文總數，以及已經在Slack回應了的數目。</li>
+            <img class="shadow" src="https://cdn.glitch.com/a3976d00-9d54-4c1e-afee-614347c571f1%2Fez-header.png?1532933096357"> 
+            <li>顯示<b>灰色背景</b>的貼文，表示該篇貼文在Slack上已留了回應。在嵌入式貼文下方之「Mark on Slack」按鈕旁亦會顯示綠色的 <i class="fa fa-check-circle" style="color:green"></i> 號。</li>
+            <img class="shadow" src="https://cdn.glitch.com/a3976d00-9d54-4c1e-afee-614347c571f1%2Ffb-post-liked.png?1532935067940">
+          </ol>
+        </div>
 
-    </div>
+        <div class="_top"><a href="#top">頁面頂部</a></div>
+        
+        <div class="sub">
+          <a name="show-n-hide"></a>
+          <h3>隱藏/顯示已讚好(灰色背景)的貼文</h3>
+          <ol>
+            <li>按下「Hide Liked」按鈕，應用程式就會把有灰色背景的嵌入式貼文隱藏起來。</li>
+            <li>按下切換成「Show Liked」的按鈕，應用程式就會把已隱藏起來的嵌入式貼文再次顯示出來。</li>
+          </ol>
+        </div>
+        
+        <div class="_top"><a href="#top">頁面頂部</a></div>
+        
+        <div class="sub">
+          <a name="click-like-on-fb"></a>
+          <h3>在Facebook嵌入式貼文「讚好」</h3>
+          <ol>
+            <li>按下Facebook嵌入式貼文的「讚好」按鈕。</li>
+            <li>如果看到「確認」按鈕，請再次按下，然後在彈出的視窗確認「讚好」。
+              <p>
+                <img class="shadow" src="https://cdn.glitch.com/a3976d00-9d54-4c1e-afee-614347c571f1%2Ffb-confirm.png?1532933656061">
+                <br>(<a href="#about_facebook_confirm_message">為什麼在點擊嵌入式Facebook貼文的「讚好」按鈕後會看到「確認」按鈕？</a>)
+              </p>
+            </li>
+          </ol>
+        </div>
+        
+        <div class="_top"><a href="#top">頁面頂部</a></div>
+
+        <div class="sub">
+          <a name="mark-on-slack"></a>
+          <h3>在Slack回應「讚好」</h3>
+          <ol>
+            <li>按嵌入式貼文下方的「Mark on Slack」按鈕。</li>
+            <li>如果成功在「品牌修煉」頻道的對應記錄上留下<i class="fa fa-thumbs-up" style="color:#ffa700"></i>回應，「Mark on Slack」按鈕旁就會出現綠色的 <i class="fa fa-check-circle" style="color:green"></i> 號。
+              <br>如果失敗，則會出現紅色的 <i class="fa fa-times-circle" style="color:red"></i>。</li>
+            <img class="shadow" src="https://cdn.glitch.com/a3976d00-9d54-4c1e-afee-614347c571f1%2Fez-mark.png?1532933656175">
+          </ol>
+        </div>
+      </div>
+      
+      <div class="_top"><a href="#top">頁面頂部</a></div>
+      
+      <a name="faq"></a>
+      <div class="content">
+        <h2>常見問題</h2>
+        <ol>
+          <li><a name="about_facebook_confirm_message"></a><h3>為什麼在點擊嵌入式Facebook貼文的「讚好」按鈕後會看到「確認」按鈕？</h3></li>
+          <ul>
+            <li><a href="https://developers.facebook.com/docs/plugins/faqs/#faq_251162528583504" target="_blank">Facebok 常見問題</a> - 當有特定用戶人數分別確認讚好之後，該確認步驟將不再出現。</li>
+          </ul>
+          <li><h3>出現錯誤信息</h3></li>
+          <ul>
+            <li>如果沒有該Channel的讀取權限，則會顯示如下圖的錯誤信息。</li>
+            <img class="shadow" src="https://cdn.glitch.com/a3976d00-9d54-4c1e-afee-614347c571f1%2Ferror_msg_no_access_right.png?1533064787026">
+          </ul>
+          <li><h3>為什麼不設計成自動同步Facebook與Slack之間的「讚好」？</h3></li>
+          <ul>
+            <li>基於2018年2月份的Facebook隱私政策修定，現在已經不再提供API方法去傳取「讚好」貼文的用戶資料。
+              <br>更無法經由其API接點，對用戶貼文添加「讚好」反應。詳細請參考：<a href="https://developers.facebook.com/docs/graph-api/reference/v3.1/object/reactions" target="_blank">Facebook Graph API 說明</a> (英文)。</li>
+            <img class="shadow" src="https://cdn.glitch.com/a3976d00-9d54-4c1e-afee-614347c571f1%2Ffacebook-api-privacy-concerns.png?1533192579883">
+          </ul>
+        </ol>
+      </div>
+      
+      <div class="_top"><a href="#top">頁面頂部</a></div>
+    </div>  
     
-    <p><a href="#top">Top of Page</a></p>
     <!-- END CONTENT -->
 
     <!-- FOOTER -->
-    <footer>
-      <p><a href="https://craftweeks.com">Craftweeks</a> &nbsp;&middot;&nbsp; Copyright &#169; 2018 <a href="https://github.com/chriskyfung">Chris K. Fung</a> &nbsp;&middot;&nbsp; <a href="http://www.coxo.hk/">達人圈子</a></p>
+    <footer>       
+      <p>Copyright &#169; 2018 <a href="https://github.com/chriskyfung">Chris K. Fung</a> &nbsp;&middot;&nbsp; <a href="http://www.coxo.hk/">達人圈子</a></p>
       <p>Made with <a href="https://glitch.com">Glitch</a>!</p>
     </footer>
 
