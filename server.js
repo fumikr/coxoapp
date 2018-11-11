@@ -180,7 +180,7 @@ app.get('/setcookie', function(req, res) {
 );
 
 // routing to 
-app.get('/setdb', function(req, res) {
+app.get('/updatebase', function(req, res) {
   logUserPageView(req, res, 'set Member Database');
   setMemberDB(req, res);
 });
@@ -202,19 +202,6 @@ app.get('/trends', function(req, res) {
     res.sendFile(__dirname + '/views/trends.html');
   };
 });
-
-app.get('/updatebase', function(req, res) {
-  logUserPageView(req, res, 'access /updatebase');
-  try {
-    var member = checkArg(req, res, 'member', '150');
-    if (member.length == 9) {
-      writeMembers2db(member);
-    };
-  } catch (err) {
-    res.send({ success: false, error: err});
-  };
-});
-
 
 
 /* functions related to login and Authorization */
@@ -446,12 +433,18 @@ function createTableIfNotExist(tb) {
 
 function write2db(uid, name, avatar) {    
   if (dbExist) {
-    db.serialize(function() {
-          db.run('INSERT OR REPLACE INTO Members (uid, name, avatar) VALUES ("' 
-                 + uid + '", "' + name + '", "'
-                 + avatar +'" );');
-    });
-    console.log('uid: ' + uid + ' , name: ' + name + ' , avatar: ' + avatar);
+    try {
+      db.serialize(function() {
+            db.run('INSERT OR REPLACE INTO Members (uid, name, avatar) VALUES ("' 
+                   + uid + '", "' + name + '", "'
+                   + avatar +'" );');
+      });
+      console.log('uid: ' + uid + ' , name: ' + name + ' , avatar: ' + avatar);
+      return true;
+    }
+    catch (err) {
+      return false;
+    }
   };
 };
 
@@ -470,39 +463,56 @@ async function writeMembers2db(members) {
     console.log(members.length);
   }
   var uids = members.filter(onlyUnique);
+  var results = [];
   for (var i in uids){
-    console.log('Try to add ' + uids[i] + ' to database');
+    console.log('Try to add/update ' + uids[i] + ' to database');
     const uid = uids[i];
     const uInfo = await web.users.info({user: uid}); 
     if (!uInfo.ok) {
-       console.warn('Error(133) Failed to get information about a user.')
+       console.warn('Error(130) Failed to get information about a user.')
     };
     console.log('update Member ' + uid + ' in database')
-    write2db(uid, uInfo.user.real_name, uInfo.user.profile.image_32);
+    results.push({ id: uid, success: write2db(uid, uInfo.user.real_name, uInfo.user.profile.image_32)});
   };
   console.log('Database "Members" ready to go!');
+  return { ok: true, log: results };
 };
 
 // fetch members' data and store to database
 async function setMemberDB(req, res) {  
-  const web = createSlackWeb(req, res, '141');
-  var channels = get_channel_ids();
-  console.log('Preparing to set Database...');
-  var members = [];
-  for (var i in channels) {
-    const gInfo = await web.groups.info({channel: channels[i]});
-    if (gInfo.ok) {
-      console.log('Successful got group member list #' + i);
-      members += gInfo.group.members;
-    } else {
-      console.log('Error:(130) Failed to get information about a private channel.')
-      return false;
+  var member = checkArg(req, res, 'member', '131');
+  if (member.length == 9) {
+    var results = await writeMembers2db(member);
+  } else if (member.toLowerCase() == 'all') {
+    const web = createSlackWeb(req, res, '132');
+    var channels = get_channel_ids();
+    console.log('Preparing to set Database...');
+    var members = [];
+    for (var i in channels) {
+      const gInfo = await web.groups.info({channel: channels[i]});
+      if (gInfo.ok) {
+        console.log('Successful got group member list #' + i);
+        members += gInfo.group.members;
+      } else {
+        console.log('Error:(133) Failed to get information about a private channel.')
+        return null;
+      };
     };
+    createTableIfNotExist('Members');
+    var results = await writeMembers2db(members.split(','));
   };
-  createTableIfNotExist('Members');
-  writeMembers2db(members.split(','));
-  res.send('Successfully Updated Member Database!');
-  return true;
+  report_db_update(req, res, results);
+};
+
+function report_db_update(req, res, obj){
+  console.log(obj)
+  if (obj.ok) {
+    res.send('Successfully Updated Member Database!');
+    return { ok: true };
+  } else {
+    res.send('Failed to Updated Some Members to Database!');
+    return { ok: false };
+  };  
 };
 
 // get the avatar of a specific user from database
