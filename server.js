@@ -78,6 +78,14 @@ app.use(SlackPassport.session());
 
 // index route
 // http://expressjs.com/en/starter/basic-routing.html
+
+/*
+app.get('/', function(req, res) {
+  logUserPageView(req, res, 'open maintenance.html');
+  res.sendFile(__dirname + '/views/maintenance.html');
+});
+*/
+
 app.get('/', function(req, res) {
   logUserPageView(req, res, 'open /')
   if (req.cookies.ezspassport) {
@@ -87,6 +95,7 @@ app.get('/', function(req, res) {
     res.sendFile(__dirname + '/views/index.html');
   }
 });
+
 
 // routing to Fans Analysis Assistant
 app.get('/analytics', function(req, res) {

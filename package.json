@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "express": "^4.16.3",
-    "slack": "^11.0.1",
     "passport-oauth2": "^1.4.0",
     "dotenv": "^6.0.0",
     "passport-facebook": "^2.1.1",
