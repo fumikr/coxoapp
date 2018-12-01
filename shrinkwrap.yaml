@@ -10,7 +10,6 @@ dependencies:
   passport-facebook: 2.1.1
   passport-oauth2: 1.4.0
   passport-slack-oauth2: 1.0.2
-  slack: 11.0.1
   sqlite-sync: 0.3.8
   sqlite3: 4.0.2
 packages:
@@ -1523,12 +1522,6 @@ packages:
     dev: false
     resolution:
       integrity: sha1-tf3AjxKH6hF4Yo5BXiUTK3NkbG0=
-  /slack/11.0.1:
-    dependencies:
-      tiny-json-http: 7.0.2
-    dev: false
-    resolution:
-      integrity: sha512-IrNIVPZtnflzjo0Rpy947SL2ITAHfw1Mm1VVQAPwUk0Yyy+UW2PCwSJGFUbgagFrR66LviHuhOUqpR+ZMspaeQ==
   /sql.js/0.5.0:
     dev: false
     resolution:
@@ -1642,10 +1635,6 @@ packages:
       node: '>=4.5'
     resolution:
       integrity: sha512-tMkTnh9EdzxyfW+6GK6fCahagXsnYk6kE6S9Gr9pjVdys769+laCTbodXDhPAjzVtEBazRgP0gYqOjnk9dQzLg==
-  /tiny-json-http/7.0.2:
-    dev: false
-    resolution:
-      integrity: sha512-5MsAvlq5tvgCY98Y7iQPmpP5ZqLzESrv/S5AwXWIvHL0Z0zVVAfWku7WC6V4rHJb+judXhd28KBnE5+FLOVYaQ==
   /tough-cookie/2.3.4:
     dependencies:
       punycode: 1.4.1
@@ -1758,6 +1747,5 @@ specifiers:
   passport-facebook: ^2.1.1
   passport-oauth2: ^1.4.0
   passport-slack-oauth2: ^1.0.0
-  slack: ^11.0.1
   sqlite-sync: ^0.3.6
   sqlite3: ^4.0.2

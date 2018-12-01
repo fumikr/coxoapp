@@ -252,7 +252,7 @@ select#num_of_days {
   border-radius:  15px;
   text-align:  center;
   background: white;
-  max-width: 420px;
+  max-width: 640px;
   min-width: 250px;
   width: 33%;
 }
