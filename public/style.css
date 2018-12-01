@@ -21,6 +21,11 @@ div#header {
 
 div#header h1 {
   margin: 16px;
+  font-family: Microsoft JhengHei;
+}
+
+h2, h3 {
+  font-family: Microsoft JhengHei; 
 }
 
 div#header h1 span::before {
